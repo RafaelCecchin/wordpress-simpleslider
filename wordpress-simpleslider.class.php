@@ -27,7 +27,6 @@
             // stylesheet
             wp_enqueue_style( 'admin-simpleslider-css', WORDPRESS_SIMPLESLIDER_URL . 'assets/style/admin-simpleslider-style.css', array(), "1.0.0", 'all' );
         }
-
         function registerSliderCPT() {
             register_post_type(WORDPRESS_SIMPLESLIDER_POST_TYPE,
                 array('labels' => array(
