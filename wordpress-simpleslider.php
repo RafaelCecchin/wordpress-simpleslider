@@ -12,8 +12,10 @@
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  **/
 
+define("WORDPRESS_SIMPLESLIDER_POST_TYPE",  'wp-simpleslider');
 define("WORDPRESS_SIMPLESLIDER_BASENAME",  plugin_basename( __FILE__ ));
 define("WORDPRESS_SIMPLESLIDER_URL", plugin_dir_url(__FILE__));
+
 
 include 'wordpress-simpleslider.class.php';
 
