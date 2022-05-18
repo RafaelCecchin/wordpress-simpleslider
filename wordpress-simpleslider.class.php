@@ -15,10 +15,93 @@
             add_action( 'init', array(&$this, 'registerSliderCPT') );
             add_action( 'add_meta_boxes', array(&$this, 'createMetabox') );
             add_action( 'admin_enqueue_scripts', array(&$this, 'adminEnqueueScripts') );
+            add_action( 'wp_enqueue_scripts', array(&$this, 'userEnqueueScripts') );
             add_action( 'save_post', array(&$this, 'saveFieldValues'), 10, 2 );
-            
+            add_shortcode( 'simpleslider', array(&$this, 'showSliders') );
         }      
 
+        function showSliders( $atts ) {
+
+            $args = [
+                'post_type'     => WORDPRESS_SIMPLESLIDER_POST_TYPE,
+                'post_status'   => 'publish'
+            ];
+            
+            $query = new WP_Query( $args );
+            
+            if ( $query->have_posts() ) {     
+
+                echo '
+                    <div class="main-simpleslider-container">
+            
+                        <button class="prevArrow">
+                            <span class="only-semantics">Voltar slide</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="24" viewBox="0 0 12 24">
+                            <path d="M371.9-101.621a1.138,1.138,0,0,0,.849-.391,1.44,1.44,0,0,0,0-1.886L364-113.621l8.751-9.724a1.44,1.44,0,0,0,0-1.886,1.117,1.117,0,0,0-1.7,0l-9.6,10.667a1.412,1.412,0,0,0-.352.943,1.412,1.412,0,0,0,.352.943l9.6,10.667A1.138,1.138,0,0,0,371.9-101.621Z" transform="translate(-361.099 125.621)"/>
+                            </svg>
+                        </button>
+                        
+                        <div class="main-slider">';
+                                        
+                        while ( $query->have_posts() ) {
+                            $query->the_post();
+                            
+                            $slider = $this->getSliderMeta( get_the_ID() );
+            
+                            echo '
+                                <div class="slide">
+                                
+                                    '.$slider['desktop_background_image'].'
+                                                        
+                                    <div class="container">
+                                        <h2>
+                                            '.$slider['main_text'].'
+                                        </h2>
+                                        <p>
+                                            '.$slider['secondary_text'].'
+                                        </p>
+                                        <a href="'.$slider['button_link'].'" class="main-button">
+                                            '.$slider['button_text'].'
+                                        </a>
+                                    </div>
+                                </div>
+                            ';
+                        }
+
+                        echo '
+                        </div>
+            
+                        <button class="nextArrow">
+                            <span class="only-semantics">Avançar slide</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="24" viewBox="0 0 12 24">
+                            <path d="M362.3-101.621a1.138,1.138,0,0,1-.849-.391,1.44,1.44,0,0,1,0-1.886l8.751-9.724-8.751-9.724a1.44,1.44,0,0,1,0-1.886,1.117,1.117,0,0,1,1.7,0l9.6,10.667a1.412,1.412,0,0,1,.352.943,1.412,1.412,0,0,1-.352.943l-9.6,10.667A1.138,1.138,0,0,1,362.3-101.621Z" transform="translate(-361.099 125.621)"/>
+                            </svg>
+                        </button>
+                        
+                    </div>
+                ';
+            
+                wp_reset_postdata();
+
+            } else {
+
+                echo "Slider não encontrado.";
+
+            }    
+
+        }
+        function getSliderMeta( $post_id ) {            
+            $data = array(
+                'main_text' => get_post_meta( $post_id, $this->metaboxMainTextFieldName, true ),
+                'secondary_text' => get_post_meta( $post_id, $this->metaboxSecondaryTextFieldName, true ),
+                'button_text' => get_post_meta( $post_id, $this->metaboxButtonTextFieldName, true ),
+                'button_link' => get_post_meta( $post_id, $this->metaboxButtonLinkFieldName, true ),
+                'desktop_background_image' => wp_get_attachment_image( get_post_meta( $post_id, $this->metaboxDesktopBackgroundImageFieldName, true ), 'full' ),
+                'mobile_background_image' => wp_get_attachment_image( get_post_meta( $post_id, $this->metaboxMobileBackgroundImageFieldName, true ), 'full' )
+            );
+
+            return $data;
+        }
         function adminEnqueueScripts() {
             // js
             wp_enqueue_script( 'admin-simpleslider-js', WORDPRESS_SIMPLESLIDER_URL . 'assets/script/admin-simpleslider-script.js', false, "1.0.0", true );    
@@ -56,7 +139,7 @@
                     'menu_position' 			=> null,
                     'menu_icon' 				=> 'dashicons-images-alt2',
                     'capability_type' 			=> 'post',
-                    'supports'					=> array( '' )
+                    'supports'					=> array( 'title' )
                 )
             );
         }
@@ -182,6 +265,14 @@
                 $optionName
             );
 
+        }        
+        function userEnqueueScripts() {
+            // js
+            wp_enqueue_script( 'slick-js', 'http://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js', array( 'jquery' ), false, true );    
+            wp_enqueue_script( 'user-simpleslider-js', WORDPRESS_SIMPLESLIDER_URL . 'assets/script/user-simpleslider-script.js', array( 'slick-js', 'jquery' ), "1.0.0", true );    
+                        
+            // stylesheet
+            wp_enqueue_style( 'slick-css','http://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css', false, "1.0.0", 'all' );
+            wp_enqueue_style( 'user-simpleslider-css', WORDPRESS_SIMPLESLIDER_URL . 'assets/style/user-simpleslider-style.css', array(), "1.0.0", 'all' );
         }
-
     }

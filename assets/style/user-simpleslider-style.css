@@ -1,0 +1,270 @@
+.main-simpleslider-container {
+	position: relative;
+}
+
+    .main-simpleslider-container .prevArrow, .main-simpleslider-container .nextArrow {
+        position: absolute;
+		z-index: 5;
+		cursor: pointer;
+		display: flex;
+		
+		top: 50%;
+		transform: translateY(-50%);
+		
+		background: transparent;
+		border: none;
+		padding: 0.5rem;
+		opacity: 0;
+		
+		transition: 250ms ease-out;
+		transition-property: box-shadow, opacity;
+    }
+
+        .main-simpleslider-container .prevArrow svg, .main-simpleslider-container .nextArrow svg {
+            fill: #FFFFFF;
+        }
+
+        .main-simpleslider-container .prevArrow {
+            left: 1.5rem;
+			filter: drop-shadow(-2px 2px 2px rgba(0, 0, 0, 0.1));
+        }
+
+        .main-simpleslider-container .nextArrow {
+            right: 1.5rem;
+			filter: drop-shadow(-2px 2px 2px rgba(0, 0, 0, 0.1));
+        }
+
+    .main-simpleslider-container:hover {
+        opacity: 1 !important;
+    }
+
+    .main-simpleslider-container:hover .prevArrow, .main-simpleslider-container:hover .nextArrow {
+        opacity: 0.75;
+    }
+
+    .main-simpleslider-container .main-slider .slide {
+        position: relative;
+        overflow: hidden;
+        
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+        
+        width: 100vw;
+        height: 0;
+        padding-top: 41.6667vw;
+    }
+
+    @media screen and (max-width: 992px) {
+        .main-simpleslider-container .main-slider .slide {
+            padding-top: 75vw;
+        }
+    }
+
+    @media screen and (max-width: 575px) {
+        .main-simpleslider-container .main-slider .slide {
+            padding-top: 133.33334vw;
+        }
+    }
+
+        .main-simpleslider-container .main-slider .slide:before {
+            position: absolute;
+            content: '';
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.5), transparent);
+            z-index: 1;
+            
+            transition: opacity 1s ease-out;
+            opacity: 0;
+        }
+
+            @media screen and (max-width: 575px) {
+                .main-simpleslider-container .main-slider .slide:before {
+                    height: 100%;
+                    background: linear-gradient(to bottom, transparent, black);
+                }
+            }
+
+        .main-simpleslider-container .main-slider img {
+            position: absolute;
+            z-index: 0;
+            
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .main-simpleslider-container .main-slider .container {
+            position: absolute;
+		    z-index: 2;
+		    
+		    display: flex;
+		    flex-flow: column;
+		    justify-content: center;
+		    gap: 2.5rem;
+		    
+		    top: 0;
+		    height: 100%;
+		    padding-top: 5%;
+		    padding-bottom: 5%;
+        }
+
+            @media screen and (max-width: 1400px) {
+                .main-simpleslider-container .main-slider .container {
+                    gap: 2rem;
+                }
+            }
+        
+            @media screen and (max-width: 575px) {
+                .main-simpleslider-container .main-slider .container {
+                    justify-content: end;
+			        padding: 2rem 2rem 4rem;
+                }
+            }
+
+            .main-simpleslider-container .main-slider .container h2 {
+                width: max-content;
+		    	max-width: 45%;
+		    	font-size: 3rem;
+		    	font-weight: 900;
+		    	color: #FFFFFF;
+		    	line-height: 1.1;
+		    	
+		    	transform: translateX(-2rem);
+		    	opacity: 0;
+		    	transition: 0.75s ease-out 0.6s;
+		    	transition-property: transform, opacity;
+            }
+
+                @media screen and (max-width: 1400px) {
+                    .main-simpleslider-container .main-slider .container h2 {
+                        max-width: 40%;
+                        font-size: 2.75rem;
+                    }
+                }
+
+                @media screen and (max-width: 992px) {
+                    .main-simpleslider-container .main-slider .container h2 {
+                        font-size: 2.5rem;
+                        max-width: 75%;
+                        line-height: 1.25;
+                    }
+                }
+            
+                @media screen and (max-width: 575px) {
+                    .main-simpleslider-container .main-slider .container h2 {
+                        transform: translateY(2rem);
+                        font-size: 1.75rem;
+                        max-width: 100%;
+                        font-weight: 800;
+                    }
+                }
+
+            .main-simpleslider-container .main-slider .container p {
+                width: max-content;
+		    	max-width: 50%;
+				font-size: 1.5rem;
+		    	color: #FFFFFF;
+		    	line-height: 1.3;
+		    	transform: translateX(-2rem);
+		    	opacity: 0;
+		    	transition: 0.75s ease-out 0.75s;
+		    	transition-property: transform, opacity;
+		    	
+            }
+
+                @media screen and (max-width: 1400px) {
+                    .main-simpleslider-container .main-slider .container p {
+                        font-size: 1.25rem;
+                    }
+                }
+
+                @media screen and (max-width: 992px) {
+                    .main-simpleslider-container .main-slider .container p {
+                        max-width: 100%;
+                    }
+                }
+            
+                @media screen and (max-width: 575px) {
+                    .main-simpleslider-container .main-slider .container p {
+                        transform: translateY(2rem);
+						font-size: 1rem;
+                    }
+                }
+
+                .main-simpleslider-container .main-slider .container p strong {
+                    font-weight: 800;
+                }
+
+            .main-simpleslider-container .main-slider .container .main-button {
+                transform: translateX(-2rem);
+		    	opacity: 0;
+		    	transition: 0.75s ease-out 0.9s;
+		    	transition-property: transform, opacity;
+            }
+
+                @media screen and (max-width: 575px) {
+                    .main-simpleslider-container .main-slider .container .main-button {
+                        transform: translateY(2rem);
+                    }
+                }
+
+    .main-simpleslider-container .slide.slick-active:before {
+        opacity: 1;
+    }
+
+    .main-simpleslider-container .slide.slick-active h2, 
+    .main-simpleslider-container .slide.slick-active p, 
+    .main-simpleslider-container .slide.slick-active .main-button {
+        transform: translateX(0);
+		opacity: 1;
+    }
+
+        @media screen and (max-width: 575px) {
+            .main-simpleslider-container .slide.slick-active h2, 
+            .main-simpleslider-container .slide.slick-active p, 
+            .main-simpleslider-container .slide.slick-active .main-button {
+                transform: translateX(0);
+            }
+        }
+
+    .main-simpleslider-container .slick-dots {
+        position: absolute;
+        bottom: 1rem;
+        width: max-content;
+        display: flex;
+        flex-flow: row nowrap;
+        gap: 0.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+        .main-simpleslider-container .slick-dots li.slick-active button {
+            width: 1.5rem;
+            background: #FFCC00;
+        }
+
+        .main-simpleslider-container .slick-dots li button {
+            background-color: #FFFFFF;
+            border: none;
+            font-size: 0;
+            padding: 0;
+            height: 0.325rem;
+            width: 1rem;
+            border-radius: 1rem;
+            cursor: pointer;
+            transition: 150ms ease-out;
+            transition-property: width, background-color;
+        }
+
+        .main-simpleslider-container .slick-dots li button:focus {
+            box-shadow: none;
+        }
