@@ -12,12 +12,23 @@
         private $metaboxMobileBackgroundImageFieldName = "simpleslider_mobile_background_image_field";
 
         function __construct() {            
-            add_action( 'init', array(&$this, 'RegisterSliderCPT') );
-            add_action( 'add_meta_boxes', array(&$this, 'CreateMetabox') );
-            add_action( 'save_post', array(&$this, 'SaveFieldValues'), 10, 2 );
+            add_action( 'init', array(&$this, 'registerSliderCPT') );
+            add_action( 'add_meta_boxes', array(&$this, 'createMetabox') );
+            add_action( 'admin_enqueue_scripts', array(&$this, 'adminEnqueueScripts') );
+            add_action( 'save_post', array(&$this, 'saveFieldValues'), 10, 2 );
+            
         }      
 
-        function RegisterSliderCPT() {
+        function adminEnqueueScripts() {
+            // js
+            wp_enqueue_script( 'admin-simpleslider-js', WORDPRESS_SIMPLESLIDER_URL . 'assets/script/admin-simpleslider-script.js', false, "1.0.0", true );    
+            wp_enqueue_media();
+            
+            // stylesheet
+            wp_enqueue_style( 'admin-simpleslider-css', WORDPRESS_SIMPLESLIDER_URL . 'assets/style/admin-simpleslider-style.css', array(), "1.0.0", 'all' );
+        }
+
+        function registerSliderCPT() {
             register_post_type(WORDPRESS_SIMPLESLIDER_POST_TYPE,
                 array('labels' => array(
                         'name'						=> 'Sliders',
@@ -50,7 +61,7 @@
                 )
             );
         }
-        function SaveFieldValues( $post_ID, $post ) {
+        function saveFieldValues( $post_ID, $post ) {
             if ($post->post_type == WORDPRESS_SIMPLESLIDER_POST_TYPE) {
                                 
                 update_post_meta( $post_ID, $this->metaboxMainTextFieldName, $_POST[ $this->metaboxMainTextFieldName ] );
@@ -62,19 +73,19 @@
                 
             }
         }
-        function CreateMetabox() {
+        function createMetabox() {
             
             add_meta_box(
                 $this->metaboxName,                    
                 'Slider',
-                array(&$this, 'CreateFields'),
+                array(&$this, 'createFields'),
                 WORDPRESS_SIMPLESLIDER_POST_TYPE
             );          
             
         }
-        function CreateFields( $post ) {
+        function createFields( $post ) {
             
-            $this->ShowField(
+            $this->showField(
                 $post,
                 $this->metaboxMainTextFieldName, 
                 'Texto principal', 
@@ -83,7 +94,7 @@
                 
             );
 
-            $this->ShowField( 
+            $this->showField( 
                 $post,
                 $this->metaboxSecondaryTextFieldName, 
                 'Texto secundário', 
@@ -91,7 +102,7 @@
                 'text' 
             );
 
-            $this->ShowField( 
+            $this->showField( 
                 $post,
                 $this->metaboxButtonTextFieldName, 
                 'Texto do botão', 
@@ -99,7 +110,7 @@
                 'text' 
             );
 
-            $this->ShowField( 
+            $this->showField( 
                 $post,
                 $this->metaboxButtonLinkFieldName, 
                 'Link do botão', 
@@ -107,51 +118,69 @@
                 'text'
             );
 
-            $this->ShowField( 
+            $this->showField( 
                 $post,
                 $this->metaboxDesktopBackgroundImageFieldName, 
                 'Imagem de fundo desktop', 
                 'Define a imagem que será exibida no fundo do slider. Recomendamos que a imagem tenha 1920 pixels de 
                  largura por 800 pixels de altura. Além disso, para evitar que o carregamento seja prejudicado, sugerimos 
                  que a imagem tenha um tratamento prévio para reduzir o tamanho.', 
-                'text' 
+                'image' 
             );
 
-            $this->ShowField( 
+            $this->showField( 
                 $post,
                 $this->metaboxMobileBackgroundImageFieldName, 
                 'Imagem de fundo mobile', 
                 'Define a imagem de fundo em dispositivos móveis. Este campo é opcional. Caso não seja preenchido, a 
                  imagem de fundo padrão será ajustada para exibição em celulares. Recomendamos que a imagem tenha 600 pixels 
                  de largura por 800 pixels de altura.', 
-                'text' 
+                'image' 
             );
 
         }
-        function ShowField( $post, $optionName, $optionTitle, $optionDesc = false, $type = 'text' ) {
+        function showField( $post, $optionName, $optionTitle, $optionDesc = false, $type = 'text' ) {
+
+            $value = get_post_meta( $post->ID, $optionName, true );
+
             echo '
-                <div class="wp_simpleslider_option_container">
+                <div class="wp_simpleslider_option_container" data-type="'.$type.'">
                     <label for="wp_simpleslider_option_field_'.$optionName.'">'.$optionTitle.'</label>
                     <p>'.($optionDesc ? $optionDesc : "").'</p>';
 
                     switch($type) {
                         case 'text':
-                            $this->ShowInputTypeText( $post, $optionName );
+                            $this->showInputTypeText( $post, $optionName, $value );
+                            break;
+
+                        case 'image':
+                            $this->showInputTypeImage( $post, $optionName, $value );
                             break;
                     }
 
             echo '
                 </div>';
         }
-        function ShowInputTypeText( $post, $optionName ) {
-
-            $value = get_post_meta( $post->ID, $optionName, true );
+        function showInputTypeText( $post, $optionName, $value ) {
 
             printf(
                 '<input type="text" id="wp_simpleslider_option_field_%s" name="%s" value="%s" />',
                 $optionName, 
                 $optionName, 
                 esc_attr( $value )
+            );
+
+        }
+        function showInputTypeImage( $post, $optionName, $value ) {
+    
+            printf(
+                '<input type="hidden" id="wp_simpleslider_option_field_%s" name="%s" value="%s" /><span class="button button-primary select-image" data-target="%s"></span><span class="button button-primary update-image" data-target="%s"></span><span class="button remove-image" data-target="%s"></span>',
+                $optionName,
+                $optionName,
+                esc_attr( $value ),
+                $optionName,
+                $optionName,
+                $optionName
             );
 
         }

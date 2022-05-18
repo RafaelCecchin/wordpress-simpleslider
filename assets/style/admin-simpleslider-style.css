@@ -1,0 +1,7 @@
+.wp_simpleslider_option_container[data-type="image"]:not(.has-value) .update-image, .wp_simpleslider_option_container[data-type="image"]:not(.has-value) .remove-image {
+    display: none;
+}
+
+.wp_simpleslider_option_container[data-type="image"].has-value .select-image {
+    display: none;
+}
