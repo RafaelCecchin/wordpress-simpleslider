@@ -7,13 +7,22 @@
         padding: 1rem;
     }
 
+    #simpleslider_metabox .slider-menu {
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #6d6d6d;
+    }
+
+    #simpleslider_metabox .wp-simpleslider-line {
+        margin-bottom: 1rem;
+    }
+
     #simpleslider_metabox .line-header {
         width: auto;
         background-color: white;
         box-shadow: 0 0 2px #6d6d6d;
         padding: .5rem;
         overflow: hidden;
-        cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: end;

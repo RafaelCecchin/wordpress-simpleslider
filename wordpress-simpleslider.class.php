@@ -32,16 +32,26 @@
         }      
 
         function getSliderMeta( $post_id ) {            
-            $data = array(
+            $dados = array(
                 'main_text' => get_post_meta( $post_id, $this->metaboxMainTextFieldName, true ),
                 'secondary_text' => get_post_meta( $post_id, $this->metaboxSecondaryTextFieldName, true ),
                 'button_text' => get_post_meta( $post_id, $this->metaboxButtonTextFieldName, true ),
                 'button_link' => get_post_meta( $post_id, $this->metaboxButtonLinkFieldName, true ),
-                'desktop_background_image' => wp_get_attachment_image( get_post_meta( $post_id, $this->metaboxDesktopBackgroundImageFieldName, true ), 'full' ),
-                'mobile_background_image' => wp_get_attachment_image( get_post_meta( $post_id, $this->metaboxMobileBackgroundImageFieldName, true ), 'full' )
+                'desktop_background_image' => get_post_meta( $post_id, $this->metaboxDesktopBackgroundImageFieldName, true ),
+                'mobile_background_image' => get_post_meta( $post_id, $this->metaboxMobileBackgroundImageFieldName, true )
             );
 
-            return $data;
+            $number = is_array($dados['main_text']) ? count( $dados['main_text'] ) : 0;
+            
+            $array = [];
+
+            for ($i = 0; $i < $number; $i++) {
+                foreach ($dados as $key => $dado ) {
+                    $array[$i][$key] = $dado[$i];            
+                }
+            }            
+
+            return $array;
         }
 
         // All Config
@@ -55,39 +65,57 @@
             // js
             wp_enqueue_script( 'admin-simpleslider-js', WORDPRESS_SIMPLESLIDER_URL . 'assets/script/admin-simpleslider-script.js', false, "1.0.0", true );    
             wp_enqueue_media();
+
+            add_action( 'admin_head', function() {
+                echo "<script>
+    
+                    var simpleSliderEmptyLineHTML = `";
+                    
+                        $this->showPostLine( false, true );
+
+                echo "`;
+                </script>";
+            });
             
             // stylesheet
             wp_enqueue_style( 'admin-simpleslider-css', WORDPRESS_SIMPLESLIDER_URL . 'assets/style/admin-simpleslider-style.css', array(), "1.0.0", 'all' );
         }
-        function showInputTypeText( $optionName, $value ) {
+        function showInputTypeText( $optionName, $value, $array = false, $position = false ) {
+
+            $pos = $array ? '['.( is_numeric( $position ) ? $position : '' ).']' : '';
 
             printf(
-                '<input type="text" id="wp-simpleslider-option-field-%s" name="%s" value="%s" />',
+                '<input type="text" id="wp-simpleslider-option-field-%s" name="%s%s" value="%s" />',
+                $optionName,                 
                 $optionName, 
-                $optionName, 
-                esc_attr( $value )
+                $pos,
+                esc_attr( $array ? $value[ $position ] : $value )
             );
 
         }
-        function showInputTypeImage( $optionName, $value ) {
-    
+        function showInputTypeImage( $optionName, $value, $array = false, $position = false ) {
+            
+            $pos = $array ? '['.( is_numeric( $position ) ? $position : '' ).']' : '';
+
             printf(
-                '<input type="hidden" id="wp-simpleslider-option-field-%s" name="%s" value="%s" /><span class="button button-primary select-image" data-target="%s"></span><span class="button button-primary update-image" data-target="%s"></span><span class="button remove-image" data-target="%s"></span>',
+                '<input type="hidden" id="wp-simpleslider-option-field-%s" name="%s%s" value="%s" /><span class="button button-primary select-image" data-target="%s">Selecionar imagem</span><span class="button button-primary update-image" data-target="%s">Atualizar imagem</span><span class="button remove-image" data-target="%s">Remover imagem</span>',
+                $optionName,                
                 $optionName,
-                $optionName,
-                esc_attr( $value ),
-                $optionName,
-                $optionName,
-                $optionName
+                $pos,
+                esc_attr( $array ? $value[ $position ] : $value ),
+                $optionName.$pos,
+                $optionName.$pos,
+                $optionName.$pos
             );
 
         }  
-        function showInputTypeCheckbox( $optionName, $value ) {
+        function showInputTypeCheckbox( $optionName, $value, $array = false ) {
 
             printf(
-                '<input type="checkbox" id="wp-simpleslider-option-field-%s" name="%s" %s/>',
-                $optionName, 
-                $optionName, 
+                '<input type="checkbox" id="wp-simpleslider-option-field-%s" name="%s%s" %s/>',
+                $optionName,                 
+                $optionName,
+                $array ? '[]' : '', 
                 esc_attr( $value ) ? 'checked="checked"' : ''
             );
 
@@ -191,17 +219,29 @@
             add_meta_box(
                 $this->metaboxName,                    
                 'Slider',
-                array(&$this, 'createPostLines'),
+                array(&$this, 'showMetabox'),
                 WORDPRESS_SIMPLESLIDER_POST_TYPE
             );          
             
         }
-        function createPostLines( $post ) {
-            
-            $this->showPostLine( $post );
-        
+        function showMetabox( $post ) {
+            echo '
+                <div class="slider-menu">
+                    <button class="add-slide">Adicionar slide</button>
+                </div>
+            ';
+            $this->createPostLines( $post );
         }
-        function showPostLine( $post ) {
+        function createPostLines( $post ) {  
+            
+            $slides = $this->getSliderMeta( $post->ID );
+
+            foreach ($slides as $key => $slide) {
+                $this->showPostLine( $post, false, $key ); 
+            }
+                   
+        }
+        function showPostLine( $post, $free = false, $position = false ) {
             echo '
                 <div class="wp-simpleslider-line"> 
                     <div class="line-header">
@@ -229,21 +269,22 @@
                             </svg>
                         </button>
                     </div>
-                    <div class="line-body">';
+                    <div class="line-body '.($free ? "" : "closed").'">';
                     
-                        $this->createPostFields( $post );
+                        $this->createPostFields( $post, $free, $position );
 
             echo '  </div> 
                 </div> ';
         }
-        function createPostFields( $post ) {
+        function createPostFields( $post, $free, $position ) {
             $this->showPostField(
                 $post,
                 $this->metaboxMainTextFieldName, 
                 'Texto principal', 
                 'Texto exibido com fonte maior.', 
                 'text',
-                
+                $free,
+                $position
             );
 
             $this->showPostField( 
@@ -251,7 +292,9 @@
                 $this->metaboxSecondaryTextFieldName, 
                 'Texto secundário', 
                 'Texto exibido com a fonte menor, logo abaixo do texto principal.', 
-                'text' 
+                'text',
+                $free,
+                $position
             );
 
             $this->showPostField( 
@@ -259,7 +302,9 @@
                 $this->metaboxButtonTextFieldName, 
                 'Texto do botão', 
                 'Texto exibido dentro do botão.', 
-                'text' 
+                'text',
+                $free,
+                $position
             );
 
             $this->showPostField( 
@@ -267,7 +312,9 @@
                 $this->metaboxButtonLinkFieldName, 
                 'Link do botão', 
                 'Link da página para qual o botão deverá redirecionar.', 
-                'text'
+                'text',
+                $free,
+                $position
             );
 
             $this->showPostField( 
@@ -277,7 +324,9 @@
                 'Define a imagem que será exibida no fundo do slider. Recomendamos que a imagem tenha 1920 pixels de 
                 largura por 800 pixels de altura. Além disso, para evitar que o carregamento seja prejudicado, sugerimos 
                 que a imagem tenha um tratamento prévio para reduzir o tamanho.', 
-                'image' 
+                'image',
+                $free,
+                $position
             );
 
             $this->showPostField( 
@@ -287,12 +336,14 @@
                 'Define a imagem de fundo em dispositivos móveis. Este campo é opcional. Caso não seja preenchido, a 
                 imagem de fundo padrão será ajustada para exibição em celulares. Recomendamos que a imagem tenha 600 pixels 
                 de largura por 800 pixels de altura.', 
-                'image' 
+                'image',
+                $free,
+                $position
             );
         }
-        function showPostField( $post, $optionName, $optionTitle, $optionDesc = false, $type = 'text' ) {
+        function showPostField( $post, $optionName, $optionTitle, $optionDesc = false, $type = 'text', $free, $position ) {
 
-            $value = get_post_meta( $post->ID, $optionName, true );
+            $value = !$free ? get_post_meta( $post->ID, $optionName, true ) : "";
 
             echo '
                 <div class="wp-simpleslider-option-container" data-type="'.$type.'">
@@ -301,18 +352,18 @@
 
                     switch($type) {
                         case 'text':
-                            $this->showInputTypeText( $optionName, $value );
+                            $this->showInputTypeText( $optionName, $value, true, $position );
                             break;
 
                         case 'image':
-                            $this->showInputTypeImage( $optionName, $value );
+                            $this->showInputTypeImage( $optionName, $value, true, $position );
                             break;
                     }
 
             echo '
                 </div>';
         }
-        
+
         // User
         function userEnqueueScripts() {
             
@@ -326,74 +377,76 @@
         }
         function showSliders( $atts ) {
 
-            $args = [
-                'post_type'     => WORDPRESS_SIMPLESLIDER_POST_TYPE,
-                'post_status'   => 'publish'
-            ];
-            
-            $query = new WP_Query( $args );
-            
-            if ( $query->have_posts() ) {     
+            if ( isset( $atts["id"] ) ) {
 
-                echo '
-                    <div class="main-simpleslider-container">
-            
-                        <button class="prevArrow">
-                            <span class="only-semantics">Voltar slide</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="24" viewBox="0 0 12 24">
-                            <path d="M371.9-101.621a1.138,1.138,0,0,0,.849-.391,1.44,1.44,0,0,0,0-1.886L364-113.621l8.751-9.724a1.44,1.44,0,0,0,0-1.886,1.117,1.117,0,0,0-1.7,0l-9.6,10.667a1.412,1.412,0,0,0-.352.943,1.412,1.412,0,0,0,.352.943l9.6,10.667A1.138,1.138,0,0,0,371.9-101.621Z" transform="translate(-361.099 125.621)"/>
-                            </svg>
-                        </button>
-                        
-                        <div class="main-slider">';
-                                        
-                        while ( $query->have_posts() ) {
-                            $query->the_post();
+                $id = $atts["id"];
+
+                $args = [
+                    'post_type'     => WORDPRESS_SIMPLESLIDER_POST_TYPE,
+                    'post_status'   => 'publish',
+                    'p'             => $id
+                ];
+                
+                $query = new WP_Query( $args );
+                
+                if ( $query->have_posts() ) {  
+                    
+                    echo '
+                        <div class="main-simpleslider-container">
+                
+                            <button class="prevArrow">
+                                <span class="only-semantics">Voltar slide</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="24" viewBox="0 0 12 24">
+                                <path d="M371.9-101.621a1.138,1.138,0,0,0,.849-.391,1.44,1.44,0,0,0,0-1.886L364-113.621l8.751-9.724a1.44,1.44,0,0,0,0-1.886,1.117,1.117,0,0,0-1.7,0l-9.6,10.667a1.412,1.412,0,0,0-.352.943,1.412,1.412,0,0,0,.352.943l9.6,10.667A1.138,1.138,0,0,0,371.9-101.621Z" transform="translate(-361.099 125.621)"/>
+                                </svg>
+                            </button>
                             
-                            $slider = $this->getSliderMeta( get_the_ID() );
-            
-                            echo '
-                                <div class="slide">
-                                
-                                    '.$slider['desktop_background_image'].'
-                                                        
-                                    <div class="container">
-                                        <h2>
-                                            '.$slider['main_text'].'
-                                        </h2>
-                                        <p>
-                                            '.$slider['secondary_text'].'
-                                        </p>
-                                        <a href="'.$slider['button_link'].'" class="main-button">
-                                            '.$slider['button_text'].'
-                                        </a>
-                                    </div>
-                                </div>
-                            ';
-                        }
+                            <div class="main-slider">';
+                            
+                            $slides = $this->getSliderMeta( $id );
 
-                        echo '
+                            foreach ($slides as $slide) {
+
+                                echo '
+                                    <div class="slide">
+                                    
+                                        '.wp_get_attachment_image( $slide['desktop_background_image'], 'full' ).'
+                                                            
+                                        <div class="container">
+                                            <h2>
+                                                '.$slide['main_text'].'
+                                            </h2>
+                                            <p>
+                                                '.$slide['secondary_text'].'
+                                            </p>
+                                            <a href="'.$slide['button_link'].'" class="main-button">
+                                                '.$slide['button_text'].'
+                                            </a>
+                                        </div>
+                                    </div>
+                                ';
+
+                            }
+                            
+                            echo '
+                            </div>
+                
+                            <button class="nextArrow">
+                                <span class="only-semantics">Avançar slide</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="24" viewBox="0 0 12 24">
+                                <path d="M362.3-101.621a1.138,1.138,0,0,1-.849-.391,1.44,1.44,0,0,1,0-1.886l8.751-9.724-8.751-9.724a1.44,1.44,0,0,1,0-1.886,1.117,1.117,0,0,1,1.7,0l9.6,10.667a1.412,1.412,0,0,1,.352.943,1.412,1.412,0,0,1-.352.943l-9.6,10.667A1.138,1.138,0,0,1,362.3-101.621Z" transform="translate(-361.099 125.621)"/>
+                                </svg>
+                            </button>
+                            
                         </div>
-            
-                        <button class="nextArrow">
-                            <span class="only-semantics">Avançar slide</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="24" viewBox="0 0 12 24">
-                            <path d="M362.3-101.621a1.138,1.138,0,0,1-.849-.391,1.44,1.44,0,0,1,0-1.886l8.751-9.724-8.751-9.724a1.44,1.44,0,0,1,0-1.886,1.117,1.117,0,0,1,1.7,0l9.6,10.667a1.412,1.412,0,0,1,.352.943,1.412,1.412,0,0,1-.352.943l-9.6,10.667A1.138,1.138,0,0,1,362.3-101.621Z" transform="translate(-361.099 125.621)"/>
-                            </svg>
-                        </button>
-                        
-                    </div>
-                ';
-            
-                wp_reset_postdata();
+                    ';
+
+                } else {
+                    echo "Slider não encontrado.";
+                }
 
             } else {
-
-                echo "Slider não encontrado.";
-
-            }    
-
-        }
-        
-        
+                echo "ID não informado.";
+            }
+        }  
     }

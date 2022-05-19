@@ -9,20 +9,12 @@ if (imageOptions.length) {
 }
 
 function updateImageButtons() {
-    const selectImageText = 'Selecionar imagem';
-    const updateImageText = 'Atualizar imagem';
-    const removeImageText = 'Remover imagem';
-
     imageOptions.forEach(imageOption => {
 
         let inputImage        = imageOption.querySelector(`input`);
         let selectImageButton = imageOption.querySelector(`.select-image`);
         let updateImageButton = imageOption.querySelector(`.update-image`);
         let removeImageButton = imageOption.querySelector(`.remove-image`);
-
-        selectImageButton.innerHTML = selectImageText;
-        updateImageButton.innerHTML = updateImageText;
-        removeImageButton.innerHTML = removeImageText;
 
         (inputImage.value != "") ? imageOption.classList.add('has-value') : imageOption.classList.remove('has-value');
         
@@ -36,7 +28,9 @@ function updateImageButtons() {
 function openMediaPanel() {
     let optionName = this.getAttribute('data-target');
 
-    let inputImage        = document.querySelector(`input[name="${optionName}"]`);
+    let inputImage = this.parentElement.querySelector(`input`);
+
+    console.log(optionName);
 
     const imageFrame = wp.media({
         title: 'Imagem',
@@ -76,39 +70,74 @@ function removeMediaValue() {
     updateImageButtons();
 }
 
+
 /* Botao minimizar slide */
 
-const minimizeSliderButtons = [...document.querySelectorAll(`.wp-simpleslider-line .minimize-slider`)];
+const minimizeSliderButtons = [...document.querySelectorAll(`#simpleslider_metabox .minimize-slider`)];
 
 if (minimizeSliderButtons.length) {
     
     minimizeSliderButtons.forEach(minimizeSliderButton => {
 
-        let lineBody = minimizeSliderButton.parentElement.nextElementSibling;
+        minimizeSliderButton.addEventListener('click', minimizeSlide);
 
-        minimizeSliderButton.addEventListener('click', function( event ) {  
-            event.preventDefault();
-            event.stopPropagation()
-            lineBody.classList.toggle( 'closed' );
-            
-        });
     });
+}
+
+function minimizeSlide( event ) {
+    let lineBody = this.parentElement.nextElementSibling;
+
+    event.preventDefault();
+    event.stopPropagation();
+    lineBody.classList.toggle( 'closed' );
 }
 
 /* Botao de remover slide */
 
-const removeSliderButtons = [...document.querySelectorAll(`.wp-simpleslider-line .remove-slider`)];
+const removeSliderButtons = [...document.querySelectorAll(`#simpleslider_metabox .remove-slider`)];
 
 if (removeSliderButtons.length) {
     
     removeSliderButtons.forEach(removeSliderButton => {
 
-        let option = removeSliderButton.parentElement.parentElement;
+        removeSliderButton.addEventListener('click', removeSlide);
 
-        removeSliderButton.addEventListener('click', function( event ) {        
-            event.preventDefault();
-            event.stopPropagation()
-            option.remove();
-        });
     });
+}
+
+function removeSlide( event ) {
+    let option = this.parentElement.parentElement;
+
+    event.preventDefault();
+    event.stopPropagation();
+    option.remove();
+}
+
+/* Botão para adicionar slide */
+
+const addSlideButton = document.querySelector(`#simpleslider_metabox .add-slide`);
+
+if (addSlideButton) {
+
+    addSlideButton.addEventListener('click', function( event ) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        let wrapper = document.createElement('div');
+        wrapper.innerHTML = simpleSliderEmptyLineHTML;
+        
+        let line = wrapper.querySelector('.wp-simpleslider-line');
+        let minimizeSlideBtn = wrapper.querySelector('.minimize-slider');
+        let removeSlideBtn = wrapper.querySelector('.remove-slider');
+        let selectImageBtn = wrapper.querySelector('.select-image');
+        let updateImageBtn = wrapper.querySelector('.update-image');
+
+        minimizeSlideBtn.addEventListener( 'click', minimizeSlide );
+        removeSlideBtn.addEventListener( 'click', removeSlide );
+        selectImageBtn.addEventListener( 'click', openMediaPanel );
+        updateImageBtn.addEventListener( 'click', openMediaPanel );
+
+        document.querySelector(`#simpleslider_metabox .inside`).appendChild( line );
+    });
+
 }
