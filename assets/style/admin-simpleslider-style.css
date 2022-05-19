@@ -2,8 +2,39 @@
     
 }
 
-
     #simpleslider_metabox .inside {
+        margin: 0;
+        padding: 1rem;
+    }
+
+    #simpleslider_metabox .line-header {
+        width: auto;
+        background-color: white;
+        box-shadow: 0 0 2px #6d6d6d;
+        padding: .5rem;
+        overflow: hidden;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: end;
+    }
+
+        #simpleslider_metabox .line-header button {
+            margin-left: .5rem;
+            width: 1.6rem;
+            height: 1.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+            #simpleslider_metabox .line-header button.minimize-slider svg {
+                width: 11px;
+                height: 14px;
+            }
+
+    #simpleslider_metabox .line-body {
         flex-wrap: wrap;
         box-shadow: 0 0 1px #a3a3a3;
         padding: 0;
@@ -12,18 +43,26 @@
         grid-template-columns: 1fr 1fr;
     }
 
+    #simpleslider_metabox .line-body.closed {
+        display: none;
+    }
+
+        #simpleslider_metabox .line-body.closed {
+            display: none;
+        }
+
     @media screen and (max-width: 800px) {
-        #simpleslider_metabox .inside {
+        #simpleslider_metabox .line-body {
             grid-template-columns: 1fr;
         }
     }
 
-    #simpleslider_metabox.closed .inside {
+    #simpleslider_metabox.closed .line-body {
         display: none;
     }
 
         #simpleslider_metabox 
-        .wp_simpleslider_option_container {
+        .wp-simpleslider-option-container {
             box-shadow: 0 0 1px #a3a3a3;
             padding: 1rem;
             box-sizing: border-box;
@@ -47,17 +86,17 @@
             }
 
             #simpleslider_metabox 
-            .wp_simpleslider_option_container[data-type="image"]:not(.has-value) .update-image, 
-            .wp_simpleslider_option_container[data-type="image"]:not(.has-value) .remove-image {
+            .wp-simpleslider-option-container[data-type="image"]:not(.has-value) .update-image, 
+            .wp-simpleslider-option-container[data-type="image"]:not(.has-value) .remove-image {
                 display: none;
             }
 
             #simpleslider_metabox
-            .wp_simpleslider_option_container[data-type="image"].has-value .select-image {
+            .wp-simpleslider-option-container[data-type="image"].has-value .select-image {
                 display: none;
             }
 
             #simpleslider_metabox
-            .wp_simpleslider_option_container .remove-image {
+            .wp-simpleslider-option-container .remove-image {
                 margin-left: 1rem;
             }

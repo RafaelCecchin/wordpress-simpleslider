@@ -1,4 +1,6 @@
-const imageOptions = [...document.querySelectorAll(`.wp_simpleslider_option_container[data-type="image"]`)];
+/* Opções de imagens do post */
+
+const imageOptions = [...document.querySelectorAll(`.wp-simpleslider-option-container[data-type="image"]`)];
 
 if (imageOptions.length) {
     
@@ -72,4 +74,41 @@ function removeMediaValue() {
     let inputImage   = document.querySelector(` input[name="${optionName}"] `);
     inputImage.value = "";
     updateImageButtons();
+}
+
+/* Botao minimizar slide */
+
+const minimizeSliderButtons = [...document.querySelectorAll(`.wp-simpleslider-line .minimize-slider`)];
+
+if (minimizeSliderButtons.length) {
+    
+    minimizeSliderButtons.forEach(minimizeSliderButton => {
+
+        let lineBody = minimizeSliderButton.parentElement.nextElementSibling;
+
+        minimizeSliderButton.addEventListener('click', function( event ) {  
+            event.preventDefault();
+            event.stopPropagation()
+            lineBody.classList.toggle( 'closed' );
+            
+        });
+    });
+}
+
+/* Botao de remover slide */
+
+const removeSliderButtons = [...document.querySelectorAll(`.wp-simpleslider-line .remove-slider`)];
+
+if (removeSliderButtons.length) {
+    
+    removeSliderButtons.forEach(removeSliderButton => {
+
+        let option = removeSliderButton.parentElement.parentElement;
+
+        removeSliderButton.addEventListener('click', function( event ) {        
+            event.preventDefault();
+            event.stopPropagation()
+            option.remove();
+        });
+    });
 }

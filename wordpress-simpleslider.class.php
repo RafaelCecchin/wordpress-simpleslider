@@ -62,7 +62,7 @@
         function showInputTypeText( $optionName, $value ) {
 
             printf(
-                '<input type="text" id="wp_simpleslider_option_field_%s" name="%s" value="%s" />',
+                '<input type="text" id="wp-simpleslider-option-field-%s" name="%s" value="%s" />',
                 $optionName, 
                 $optionName, 
                 esc_attr( $value )
@@ -72,7 +72,7 @@
         function showInputTypeImage( $optionName, $value ) {
     
             printf(
-                '<input type="hidden" id="wp_simpleslider_option_field_%s" name="%s" value="%s" /><span class="button button-primary select-image" data-target="%s"></span><span class="button button-primary update-image" data-target="%s"></span><span class="button remove-image" data-target="%s"></span>',
+                '<input type="hidden" id="wp-simpleslider-option-field-%s" name="%s" value="%s" /><span class="button button-primary select-image" data-target="%s"></span><span class="button button-primary update-image" data-target="%s"></span><span class="button remove-image" data-target="%s"></span>',
                 $optionName,
                 $optionName,
                 esc_attr( $value ),
@@ -85,7 +85,7 @@
         function showInputTypeCheckbox( $optionName, $value ) {
 
             printf(
-                '<input type="checkbox" id="wp_simpleslider_option_field_%s" name="%s" %s/>',
+                '<input type="checkbox" id="wp-simpleslider-option-field-%s" name="%s" %s/>',
                 $optionName, 
                 $optionName, 
                 esc_attr( $value ) ? 'checked="checked"' : ''
@@ -191,13 +191,52 @@
             add_meta_box(
                 $this->metaboxName,                    
                 'Slider',
-                array(&$this, 'createFields'),
+                array(&$this, 'createPostLines'),
                 WORDPRESS_SIMPLESLIDER_POST_TYPE
             );          
             
         }
-        function createFields( $post ) {
+        function createPostLines( $post ) {
             
+            $this->showPostLine( $post );
+        
+        }
+        function showPostLine( $post ) {
+            echo '
+                <div class="wp-simpleslider-line"> 
+                    <div class="line-header">
+                        <button class="minimize-slider">
+                            <svg width="16px" height="6px" viewBox="0 0 16 6" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <title>space_bar</title>
+                                <desc>Created with Sketch.</desc>
+                                <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g id="Outlined" transform="translate(-478.000000, -2111.000000)">
+                                        <g id="Editor" transform="translate(100.000000, 1960.000000)">
+                                            <g id="Outlined-/-Editor-/-space_bar" transform="translate(374.000000, 142.000000)">
+                                                <g>
+                                                    <polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
+                                                    <polygon id="🔹-Icon-Color" fill="#6d6d6d" points="18 9 18 13 6 13 6 9 4 9 4 15 20 15 20 9"></polygon>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                        </button>                        
+                        <button class="remove-slider">
+                            <svg version="1.1" id="cross-11" xmlns="http://www.w3.org/2000/svg" width="11px" height="11px" viewBox="0 0 11 11">
+                                <path d="M2.2,1.19l3.3,3.3L8.8,1.2C8.9314,1.0663,9.1127,0.9938,9.3,1C9.6761,1.0243,9.9757,1.3239,10,1.7&#xA;&#x9;c0.0018,0.1806-0.0705,0.3541-0.2,0.48L6.49,5.5L9.8,8.82C9.9295,8.9459,10.0018,9.1194,10,9.3C9.9757,9.6761,9.6761,9.9757,9.3,10&#xA;&#x9;c-0.1873,0.0062-0.3686-0.0663-0.5-0.2L5.5,6.51L2.21,9.8c-0.1314,0.1337-0.3127,0.2062-0.5,0.2C1.3265,9.98,1.02,9.6735,1,9.29&#xA;&#x9;C0.9982,9.1094,1.0705,8.9359,1.2,8.81L4.51,5.5L1.19,2.18C1.0641,2.0524,0.9955,1.8792,1,1.7C1.0243,1.3239,1.3239,1.0243,1.7,1&#xA;&#x9;C1.8858,0.9912,2.0669,1.06,2.2,1.19z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="line-body">';
+                    
+                        $this->createPostFields( $post );
+
+            echo '  </div> 
+                </div> ';
+        }
+        function createPostFields( $post ) {
             $this->showPostField(
                 $post,
                 $this->metaboxMainTextFieldName, 
@@ -250,15 +289,14 @@
                 de largura por 800 pixels de altura.', 
                 'image' 
             );
-
         }
         function showPostField( $post, $optionName, $optionTitle, $optionDesc = false, $type = 'text' ) {
 
             $value = get_post_meta( $post->ID, $optionName, true );
 
             echo '
-                <div class="wp_simpleslider_option_container" data-type="'.$type.'">
-                    <label for="wp_simpleslider_option_field_'.$optionName.'">'.$optionTitle.'</label>
+                <div class="wp-simpleslider-option-container" data-type="'.$type.'">
+                    <label for="wp-simpleslider-option-field-'.$optionName.'">'.$optionTitle.'</label>
                     <p>'.($optionDesc ? $optionDesc : "").'</p>';
 
                     switch($type) {
