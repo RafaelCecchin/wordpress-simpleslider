@@ -57,6 +57,8 @@
                 foreach ($dados as $key => $dado ) {
                     $array[$i][$key] = $dado[$i];            
                 }
+
+                $array[$i]['image_html'] = $this->getSlideHTML( $array[$i]['desktop_background_image'], $array[$i]['mobile_background_image'] );
             }            
 
             return $array;
@@ -510,53 +512,10 @@
                     $slides = $this->getSliderMeta( $id );
 
                     if ($slides) {
-                        echo '
-                            <div class="main-simpleslider-container">
-                    
-                                <button class="prevArrow">
-                                    <span class="only-semantics">Voltar slide</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="24" viewBox="0 0 12 24">
-                                    <path d="M371.9-101.621a1.138,1.138,0,0,0,.849-.391,1.44,1.44,0,0,0,0-1.886L364-113.621l8.751-9.724a1.44,1.44,0,0,0,0-1.886,1.117,1.117,0,0,0-1.7,0l-9.6,10.667a1.412,1.412,0,0,0-.352.943,1.412,1.412,0,0,0,.352.943l9.6,10.667A1.138,1.138,0,0,0,371.9-101.621Z" transform="translate(-361.099 125.621)"/>
-                                    </svg>
-                                </button>
-                                
-                                <div class="main-slider">';
 
-                                foreach ($slides as $slide) {                                    
-
-                                    echo '
-                                        <div class="slide">
-                                        
-                                            '.$this->getSlideHTML( $slide[ 'desktop_background_image' ], $slide[ 'mobile_background_image' ] ).'
-                                                                
-                                            <div class="container">
-                                                <h2 style="color: '.$slide['text_color'].';">
-                                                    '.$slide['main_text'].'
-                                                </h2>
-                                                <p style="color: '.$slide['text_color'].';">
-                                                    '.$slide['secondary_text'].'
-                                                </p>
-                                                <a href="'.$slide['button_link'].'" class="simpleslider-button" style="color: '.$slide['text_color'].'; background-color: '.$slide['button_color'].';">
-                                                    '.$slide['button_text'].'
-                                                </a>
-                                            </div>
-                                        </div>
-                                    ';
-
-                                }
-                                
-                                echo '
-                                </div>
-                    
-                                <button class="nextArrow">
-                                    <span class="only-semantics">Avançar slide</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="24" viewBox="0 0 12 24">
-                                    <path d="M362.3-101.621a1.138,1.138,0,0,1-.849-.391,1.44,1.44,0,0,1,0-1.886l8.751-9.724-8.751-9.724a1.44,1.44,0,0,1,0-1.886,1.117,1.117,0,0,1,1.7,0l9.6,10.667a1.412,1.412,0,0,1,.352.943,1.412,1.412,0,0,1-.352.943l-9.6,10.667A1.138,1.138,0,0,1,362.3-101.621Z" transform="translate(-361.099 125.621)"/>
-                                    </svg>
-                                </button>
-                                
-                            </div>
-                        ';
+                        set_query_var( 'slides', $slides ); 
+                        include(WORDPRESS_SIMPLESLIDER_PLUGIN_DIR."views\\slider.php");
+                        
                     } else {
                         echo "Nenhum slide encontrado no slider selecionado.";
                     }
