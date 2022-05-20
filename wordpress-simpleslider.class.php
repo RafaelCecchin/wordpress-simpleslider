@@ -465,55 +465,62 @@
                 
                 if ( $query->have_posts() ) {  
                     
-                    echo '
-                        <div class="main-simpleslider-container">
-                
-                            <button class="prevArrow">
-                                <span class="only-semantics">Voltar slide</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="24" viewBox="0 0 12 24">
-                                <path d="M371.9-101.621a1.138,1.138,0,0,0,.849-.391,1.44,1.44,0,0,0,0-1.886L364-113.621l8.751-9.724a1.44,1.44,0,0,0,0-1.886,1.117,1.117,0,0,0-1.7,0l-9.6,10.667a1.412,1.412,0,0,0-.352.943,1.412,1.412,0,0,0,.352.943l9.6,10.667A1.138,1.138,0,0,0,371.9-101.621Z" transform="translate(-361.099 125.621)"/>
-                                </svg>
-                            </button>
-                            
-                            <div class="main-slider">';
-                            
-                            $slides = $this->getSliderMeta( $id );
+                    $slides = $this->getSliderMeta( $id );
 
-                            foreach ($slides as $slide) {
+                    if ($slides) {
+                        echo '
+                            <div class="main-simpleslider-container">
+                    
+                                <button class="prevArrow">
+                                    <span class="only-semantics">Voltar slide</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="24" viewBox="0 0 12 24">
+                                    <path d="M371.9-101.621a1.138,1.138,0,0,0,.849-.391,1.44,1.44,0,0,0,0-1.886L364-113.621l8.751-9.724a1.44,1.44,0,0,0,0-1.886,1.117,1.117,0,0,0-1.7,0l-9.6,10.667a1.412,1.412,0,0,0-.352.943,1.412,1.412,0,0,0,.352.943l9.6,10.667A1.138,1.138,0,0,0,371.9-101.621Z" transform="translate(-361.099 125.621)"/>
+                                    </svg>
+                                </button>
+                                
+                                <div class="main-slider">';
+                                
+                                
 
-                                echo '
-                                    <div class="slide">
-                                    
-                                        '.wp_get_attachment_image( $slide['desktop_background_image'], 'full' ).'
-                                                            
-                                        <div class="container">
-                                            <h2 style="color: '.$slide['text_color'].';">
-                                                '.$slide['main_text'].'
-                                            </h2>
-                                            <p style="color: '.$slide['text_color'].';">
-                                                '.$slide['secondary_text'].'
-                                            </p>
-                                            <a href="'.$slide['button_link'].'" class="simpleslider-button" style="color: '.$slide['text_color'].'; background-color: '.$slide['button_color'].';">
-                                                '.$slide['button_text'].'
-                                            </a>
+                                foreach ($slides as $slide) {
+
+                                    echo '
+                                        <div class="slide">
+                                        
+                                            '.wp_get_attachment_image( $slide['desktop_background_image'], 'full' ).'
+                                                                
+                                            <div class="container">
+                                                <h2 style="color: '.$slide['text_color'].';">
+                                                    '.$slide['main_text'].'
+                                                </h2>
+                                                <p style="color: '.$slide['text_color'].';">
+                                                    '.$slide['secondary_text'].'
+                                                </p>
+                                                <a href="'.$slide['button_link'].'" class="simpleslider-button" style="color: '.$slide['text_color'].'; background-color: '.$slide['button_color'].';">
+                                                    '.$slide['button_text'].'
+                                                </a>
+                                            </div>
                                         </div>
-                                    </div>
-                                ';
+                                    ';
 
-                            }
-                            
-                            echo '
+                                }
+                                
+                                echo '
+                                </div>
+                    
+                                <button class="nextArrow">
+                                    <span class="only-semantics">Avançar slide</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="24" viewBox="0 0 12 24">
+                                    <path d="M362.3-101.621a1.138,1.138,0,0,1-.849-.391,1.44,1.44,0,0,1,0-1.886l8.751-9.724-8.751-9.724a1.44,1.44,0,0,1,0-1.886,1.117,1.117,0,0,1,1.7,0l9.6,10.667a1.412,1.412,0,0,1,.352.943,1.412,1.412,0,0,1-.352.943l-9.6,10.667A1.138,1.138,0,0,1,362.3-101.621Z" transform="translate(-361.099 125.621)"/>
+                                    </svg>
+                                </button>
+                                
                             </div>
-                
-                            <button class="nextArrow">
-                                <span class="only-semantics">Avançar slide</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="24" viewBox="0 0 12 24">
-                                <path d="M362.3-101.621a1.138,1.138,0,0,1-.849-.391,1.44,1.44,0,0,1,0-1.886l8.751-9.724-8.751-9.724a1.44,1.44,0,0,1,0-1.886,1.117,1.117,0,0,1,1.7,0l9.6,10.667a1.412,1.412,0,0,1,.352.943,1.412,1.412,0,0,1-.352.943l-9.6,10.667A1.138,1.138,0,0,1,362.3-101.621Z" transform="translate(-361.099 125.621)"/>
-                                </svg>
-                            </button>
-                            
-                        </div>
-                    ';
+                        ';
+                    } else {
+                        echo "Nenhum slide encontrado no slider selecionado.";
+                    }
+                    
 
                 } else {
                     echo "Slider não encontrado.";
