@@ -25,10 +25,7 @@ function updateImageButtons() {
 
 function openMediaPanel() {
     let optionName = this.getAttribute('data-target');
-
     let inputImage = this.parentElement.querySelector(`input`);
-
-    console.log(inputImage);
 
     const imageFrame = wp.media({
         title: 'Imagem',
@@ -137,7 +134,6 @@ if (addSlideButton) {
 
         
         selectImageBtns.forEach(element => {
-            console.log(element);
             element.addEventListener( 'click', openMediaPanel );
         });
 
