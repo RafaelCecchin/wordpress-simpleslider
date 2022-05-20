@@ -215,7 +215,7 @@
             register_setting( $this->configGroupSlug, $this->optionLoadSlick );
             add_settings_field(
                 $this->optionLoadSlick,
-                "Load slick",
+                "Carregar slick.js",
                 array($this, 'showLoadSlickCheckbox'),
                 $this->configPageSlug,
                 $this->configSectionSlug,       
