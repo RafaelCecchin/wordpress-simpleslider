@@ -110,6 +110,11 @@
             }
 
             #simpleslider_metabox 
+            input[type="color"] {
+                width: 4rem;
+            }
+
+            #simpleslider_metabox 
             .wp-simpleslider-option-container[data-type="image"] input {
                 max-width: 0;
                 max-height: 0;

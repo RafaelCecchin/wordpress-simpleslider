@@ -128,6 +128,20 @@
             );
 
         }
+        function showInputTypeColor( $optionName, $value, $required, $array = false, $position = false ) {
+
+            $pos = $array ? '['.( is_numeric( $position ) ? $position : '' ).']' : '';
+
+            printf(
+                '<input type="color" id="wp-simpleslider-option-field-%s" name="%s%s" value="%s" %s/>',
+                $optionName,                 
+                $optionName, 
+                $pos,
+                esc_attr( $array ? $value[ $position ] : $value ),
+                $required ? 'required' : ''
+            );
+
+        }
         function showInputTypeImage( $optionName, $value, $required, $array = false, $position = false ) {
             
             $pos = $array ? '['.( is_numeric( $position ) ? $position : '' ).']' : '';
@@ -396,7 +410,7 @@
                 $this->metaboxTextColor, 
                 'Cor do texto', 
                 'Hexadecimal rerefente a cor do texto.', 
-                'text',
+                'color',
                 $free,
                 $position,
                 false
@@ -407,7 +421,7 @@
                 $this->metaboxButtonColor, 
                 'Cor do botão', 
                 'Hexadecimal rerefente a cor do botão.', 
-                'text',
+                'color',
                 $free,
                 $position,
                 false
@@ -456,6 +470,10 @@
                         case 'image':
                             $this->showInputTypeImage( $optionName, $value, $required, true, $position );
                             break;
+
+                        case 'color':
+                            $this->showInputTypeColor( $optionName, $value, $required, true, $position );
+                            break;
                     }
 
             echo '
@@ -503,20 +521,8 @@
                                 </button>
                                 
                                 <div class="main-slider">';
-                                
-                                
 
-                                foreach ($slides as $slide) {
-                                    /*
-                                        private $metaboxMainTextFieldName = "simpleslider_main_text_field";
-                                        private $metaboxSecondaryTextFieldName = "simpleslider_secondary_text_field";
-                                        private $metaboxButtonTextFieldName = "simpleslider_button_text_field";
-                                        private $metaboxButtonLinkFieldName = "simpleslider_button_link_field";
-                                        private $metaboxDesktopBackgroundImageFieldName = "simpleslider_desktop_background_image_field";
-                                        private $metaboxMobileBackgroundImageFieldName = "simpleslider_mobile_background_image_field";
-                                    */
-                                    
-                                    
+                                foreach ($slides as $slide) {                                    
 
                                     echo '
                                         <div class="slide">
