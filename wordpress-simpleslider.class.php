@@ -36,7 +36,6 @@
 
             add_shortcode( 'simpleslider', array( &$this, 'showSliders' ) );
         }      
-       
 
         function getSliderMeta( $post_id ) {            
             $dados = array(
@@ -61,6 +60,32 @@
             }            
 
             return $array;
+        }
+        function getSlideHTML( $desktop_id, $mobile_id ) {
+            $slider = wp_get_attachment_image( $desktop_id, 'full' );
+                                    
+            $dekstop_meta = wp_get_attachment_metadata( $desktop_id );
+            $mobile_meta = wp_get_attachment_metadata( $mobile_id );
+            
+            $slider .= '
+                <picture>
+                    <source 
+                        srcset="' . wp_get_attachment_url( $mobile_id ) . '"
+                        width="' . $mobile_meta["width"] . '"
+                        height="' . $mobile_meta["height"] . '"
+                        media="(max-width: 767px)"
+                        alt=""
+                    >
+                    <img 
+                        src="' . wp_get_attachment_url( $desktop_id ) . '"
+                        width="' . $dekstop_meta["width"] . '"
+                        height="' . $dekstop_meta["height"] . '"
+                        alt=""
+                    >
+                </picture>
+            ';
+
+            return $slider;
         }
 
         // All Config
@@ -155,7 +180,6 @@
         function getShortcode( $post_id, $post_title = false ) {
             return '[simpleslider id="'.$post_id.'" title="'.$post_title.'"]';
         }
-
 
         // General config
         function generalConfigPage() {
@@ -483,11 +507,21 @@
                                 
 
                                 foreach ($slides as $slide) {
+                                    /*
+                                        private $metaboxMainTextFieldName = "simpleslider_main_text_field";
+                                        private $metaboxSecondaryTextFieldName = "simpleslider_secondary_text_field";
+                                        private $metaboxButtonTextFieldName = "simpleslider_button_text_field";
+                                        private $metaboxButtonLinkFieldName = "simpleslider_button_link_field";
+                                        private $metaboxDesktopBackgroundImageFieldName = "simpleslider_desktop_background_image_field";
+                                        private $metaboxMobileBackgroundImageFieldName = "simpleslider_mobile_background_image_field";
+                                    */
+                                    
+                                    
 
                                     echo '
                                         <div class="slide">
                                         
-                                            '.wp_get_attachment_image( $slide['desktop_background_image'], 'full' ).'
+                                            '.$this->getSlideHTML( $slide[ 'desktop_background_image' ], $slide[ 'mobile_background_image' ] ).'
                                                                 
                                             <div class="container">
                                                 <h2 style="color: '.$slide['text_color'].';">
