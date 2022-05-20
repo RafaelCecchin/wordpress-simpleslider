@@ -11,6 +11,9 @@
         private $metaboxDesktopBackgroundImageFieldName = "simpleslider_desktop_background_image_field";
         private $metaboxMobileBackgroundImageFieldName = "simpleslider_mobile_background_image_field";
 
+        private $metaboxTextColor = "simpleslider_text_color";
+        private $metaboxButtonColor = "simpleslider_btn_color";
+
         private $configPageSlug = "simpleslider_config_page";
         private $configSectionSlug = "simpleslider_config_section";
         private $configGroupSlug = "simpleslider_config_group";
@@ -33,8 +36,7 @@
 
             add_shortcode( 'simpleslider', array( &$this, 'showSliders' ) );
         }      
-
-        
+       
 
         function getSliderMeta( $post_id ) {            
             $dados = array(
@@ -42,6 +44,8 @@
                 'secondary_text' => get_post_meta( $post_id, $this->metaboxSecondaryTextFieldName, true ),
                 'button_text' => get_post_meta( $post_id, $this->metaboxButtonTextFieldName, true ),
                 'button_link' => get_post_meta( $post_id, $this->metaboxButtonLinkFieldName, true ),
+                'text_color'   => get_post_meta( $post_id, $this->metaboxTextColor, true ),
+                'button_color'   => get_post_meta( $post_id, $this->metaboxButtonColor, true ),
                 'desktop_background_image' => get_post_meta( $post_id, $this->metaboxDesktopBackgroundImageFieldName, true ),
                 'mobile_background_image' => get_post_meta( $post_id, $this->metaboxMobileBackgroundImageFieldName, true )
             );
@@ -236,6 +240,8 @@
                 update_post_meta( $post_ID, $this->metaboxSecondaryTextFieldName, $_POST[ $this->metaboxSecondaryTextFieldName ] );
                 update_post_meta( $post_ID, $this->metaboxButtonTextFieldName, $_POST[ $this->metaboxButtonTextFieldName ] );
                 update_post_meta( $post_ID, $this->metaboxButtonLinkFieldName, $_POST[ $this->metaboxButtonLinkFieldName ] );
+                update_post_meta( $post_ID, $this->metaboxTextColor, $_POST[ $this->metaboxTextColor ] );
+                update_post_meta( $post_ID, $this->metaboxButtonColor, $_POST[ $this->metaboxButtonColor ] );
                 update_post_meta( $post_ID, $this->metaboxDesktopBackgroundImageFieldName, $_POST[ $this->metaboxDesktopBackgroundImageFieldName ] );
                 update_post_meta( $post_ID, $this->metaboxMobileBackgroundImageFieldName, $_POST[ $this->metaboxMobileBackgroundImageFieldName ] );
                 
@@ -354,6 +360,26 @@
 
             $this->showPostField( 
                 $post,
+                $this->metaboxTextColor, 
+                'Cor do texto', 
+                'Hexadecimal rerefente a cor do texto.', 
+                'text',
+                $free,
+                $position
+            );
+
+            $this->showPostField( 
+                $post,
+                $this->metaboxButtonColor, 
+                'Cor do botão', 
+                'Hexadecimal rerefente a cor do botão.', 
+                'text',
+                $free,
+                $position
+            );
+
+            $this->showPostField( 
+                $post,
                 $this->metaboxDesktopBackgroundImageFieldName, 
                 'Imagem de fundo desktop', 
                 'Define a imagem que será exibida no fundo do slider. Recomendamos que a imagem tenha 1920 pixels de 
@@ -374,7 +400,7 @@
                 'image',
                 $free,
                 $position
-            );
+            );            
         }
         function showPostField( $post, $optionName, $optionTitle, $optionDesc = false, $type = 'text', $free, $position ) {
 
@@ -448,13 +474,13 @@
                                         '.wp_get_attachment_image( $slide['desktop_background_image'], 'full' ).'
                                                             
                                         <div class="container">
-                                            <h2>
+                                            <h2 style="color: '.$slide['text_color'].';">
                                                 '.$slide['main_text'].'
                                             </h2>
-                                            <p>
+                                            <p style="color: '.$slide['text_color'].';">
                                                 '.$slide['secondary_text'].'
                                             </p>
-                                            <a href="'.$slide['button_link'].'" class="main-button">
+                                            <a href="'.$slide['button_link'].'" class="simpleslider-button" style="color: '.$slide['text_color'].'; background-color: '.$slide['button_color'].';">
                                                 '.$slide['button_text'].'
                                             </a>
                                         </div>
@@ -483,5 +509,5 @@
             } else {
                 echo "ID não informado.";
             }
-        }  
+        }
     }
