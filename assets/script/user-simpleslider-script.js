@@ -1,18 +1,22 @@
-const sliders = jQuery('.main-simpleslider-container .main-slider');
+(function($) {
 
-if(sliders.length) {
+    const sliders = jQuery('.main-simpleslider-container .main-slider');
 
-    const settings= {
-        infinite: false,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        dots: true,
-        arrows: true,
-        prevArrow: jQuery('.main-simpleslider-container .prevArrow'),
-        nextArrow: jQuery('.main-simpleslider-container .nextArrow')
+    
+    if(sliders.length) {
+
+        const settings= {
+            infinite: false,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            dots: true,
+            arrows: true,
+            prevArrow: jQuery('.main-simpleslider-container .prevArrow'),
+            nextArrow: jQuery('.main-simpleslider-container .nextArrow')
+        }
+
+        sliders.slick(settings);
+
     }
 
-    sliders.slick(settings);
-
-}
-
+})(jQuery);
