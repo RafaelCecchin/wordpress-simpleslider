@@ -331,7 +331,7 @@
                 'text',
                 $free,
                 $position,
-                true
+                false
             );
 
             $this->showPostField( 
