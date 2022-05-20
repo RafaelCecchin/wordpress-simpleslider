@@ -1,14 +1,12 @@
 /* Opções de imagens do post */
 
-const imageOptions = [...document.querySelectorAll(`.wp-simpleslider-option-container[data-type="image"]`)];
-
-if (imageOptions.length) {
-    
+if (document.querySelector(`.wp-simpleslider-option-container[data-type="image"]`)) {    
     updateImageButtons();
-
 }
 
 function updateImageButtons() {
+    let imageOptions = [...document.querySelectorAll(`.wp-simpleslider-option-container[data-type="image"]`)];
+    
     imageOptions.forEach(imageOption => {
 
         let inputImage        = imageOption.querySelector(`input`);
@@ -30,7 +28,7 @@ function openMediaPanel() {
 
     let inputImage = this.parentElement.querySelector(`input`);
 
-    console.log(optionName);
+    console.log(inputImage);
 
     const imageFrame = wp.media({
         title: 'Imagem',
@@ -129,13 +127,28 @@ if (addSlideButton) {
         let line = wrapper.querySelector('.wp-simpleslider-line');
         let minimizeSlideBtn = wrapper.querySelector('.minimize-slider');
         let removeSlideBtn = wrapper.querySelector('.remove-slider');
-        let selectImageBtn = wrapper.querySelector('.select-image');
-        let updateImageBtn = wrapper.querySelector('.update-image');
+        
+        let selectImageBtns = wrapper.querySelectorAll('.select-image');
+        let updateImageBtns = wrapper.querySelectorAll('.update-image');
+        let removeImageBtns = wrapper.querySelectorAll('.remove-image');
 
         minimizeSlideBtn.addEventListener( 'click', minimizeSlide );
         removeSlideBtn.addEventListener( 'click', removeSlide );
-        selectImageBtn.addEventListener( 'click', openMediaPanel );
-        updateImageBtn.addEventListener( 'click', openMediaPanel );
+
+        
+        selectImageBtns.forEach(element => {
+            console.log(element);
+            element.addEventListener( 'click', openMediaPanel );
+        });
+
+        updateImageBtns.forEach(element => {
+            element.addEventListener( 'click', openMediaPanel );
+        });
+
+        removeImageBtns.forEach(element => {
+            element.addEventListener( 'click', removeMediaValue );
+        });
+               
 
         document.querySelector(`#simpleslider_metabox .inside`).appendChild( line );
     });
