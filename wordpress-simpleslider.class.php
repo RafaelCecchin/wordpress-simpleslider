@@ -27,9 +27,14 @@
             add_action( 'admin_enqueue_scripts', array( &$this, 'adminEnqueueScripts' ) );
             add_action( 'wp_enqueue_scripts', array( &$this, 'userEnqueueScripts' ) );
             add_action( 'save_post', array( &$this, 'saveFieldValues' ), 10, 2 );
+            
+            add_filter( 'manage_'.WORDPRESS_SIMPLESLIDER_POST_TYPE.'_posts_columns', array( &$this, 'setShortcodeColumn' ) );
+            add_action( 'manage_'.WORDPRESS_SIMPLESLIDER_POST_TYPE.'_posts_custom_column' , array( &$this, 'showShortcodeInColumn' ), 10, 2 );
 
             add_shortcode( 'simpleslider', array( &$this, 'showSliders' ) );
         }      
+
+        
 
         function getSliderMeta( $post_id ) {            
             $dados = array(
@@ -120,6 +125,28 @@
             );
 
         }
+        function setShortcodeColumn( $columns ) {
+            unset( $columns['date'] );
+            $columns['shortcode'] = "Shortcode";
+
+            return $columns;
+        }
+        function showShortcodeInColumn( $column, $post_id ) {
+
+            $title = get_the_title( $post_id );
+
+
+            if ( $column == 'shortcode' ) {
+
+                echo $this->getShortcode( $post_id, $title );
+
+            }
+
+        }
+        function getShortcode( $post_id, $post_title = false ) {
+            return '[simpleslider id="'.$post_id.'" title="'.$post_title.'"]';
+        }
+
 
         // General config
         function generalConfigPage() {
@@ -227,7 +254,7 @@
         function showMetabox( $post ) {
             echo '
                 <div class="shortcode">
-                    [simpleslider id="'.$post->ID.'" title="'.$post->post_title.'"]
+                    '.$this->getShortcode( $post->ID, $post->post_title ).'
                 </div>
                 <div class="slider-menu">
                     <button class="add-slide">Adicionar slide</button>
