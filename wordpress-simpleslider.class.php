@@ -296,7 +296,7 @@
                                             <g id="Outlined-/-Editor-/-space_bar" transform="translate(374.000000, 142.000000)">
                                                 <g>
                                                     <polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
-                                                    <polygon id="🔹-Icon-Color" fill="#6d6d6d" points="18 9 18 13 6 13 6 9 4 9 4 15 20 15 20 9"></polygon>
+                                                    <polygon id="🔹-Icon-Color" fill="#000000" points="18 9 18 13 6 13 6 9 4 9 4 15 20 15 20 9"></polygon>
                                                 </g>
                                             </g>
                                         </g>
