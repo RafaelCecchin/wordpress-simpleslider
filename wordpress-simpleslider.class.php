@@ -147,17 +147,19 @@
         function showInputTypeImage( $optionName, $value, $required, $array = false, $position = false ) {
             
             $pos = $array ? '['.( is_numeric( $position ) ? $position : '' ).']' : '';
+            $val = esc_attr( $array ? $value[ $position ] : $value );
 
             printf(
-                '<input type="text" style="width: 0; height: 0; padding: 0; border: 1px solid transparent;" id="wp-simpleslider-option-field-%s" name="%s%s" value="%s" %s/><span class="button button-primary select-image" data-target="%s">Selecionar imagem</span><span class="button button-primary update-image" data-target="%s">Atualizar imagem</span><span class="button remove-image" data-target="%s">Remover imagem</span>',
+                '<input type="text" style="width: 0; height: 0; padding: 0; border: 1px solid transparent;" id="wp-simpleslider-option-field-%s" name="%s%s" value="%s" %s/><span class="button button-primary select-image" data-target="%s">Selecionar imagem</span><span class="button button-primary update-image" data-target="%s">Atualizar imagem</span><span class="button remove-image" data-target="%s">Remover imagem</span><img class="image-preview" src="%s"/>',
                 $optionName,                
                 $optionName,
                 $pos,
-                esc_attr( $array ? $value[ $position ] : $value ),
+                $val,
                 $required ? 'required' : '',
                 $optionName.$pos,
                 $optionName.$pos,
-                $optionName.$pos
+                $optionName.$pos,
+                ( $val ? wp_get_attachment_image_url( $val, 'full' ) : '' )
             );
 
         }  
