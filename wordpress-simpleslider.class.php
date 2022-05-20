@@ -436,7 +436,7 @@
                 'image',
                 $free,
                 $position,
-                true
+                false
             );            
         }
         function showPostField( $post, $optionName, $optionTitle, $optionDesc = false, $type = 'text', $free, $position, $required = false ) {
