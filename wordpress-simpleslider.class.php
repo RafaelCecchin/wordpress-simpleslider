@@ -10,6 +10,7 @@
         private $metaboxButtonLinkFieldName = "simpleslider_button_link_field";
         private $metaboxDesktopBackgroundImageFieldName = "simpleslider_desktop_background_image_field";
         private $metaboxMobileBackgroundImageFieldName = "simpleslider_mobile_background_image_field";
+        private $metaboxTemplate = "simpleslider_template_field";
 
         private $metaboxTextColor = "simpleslider_text_color";
         private $metaboxButtonColor = "simpleslider_btn_color";
@@ -177,6 +178,31 @@
             );
 
         }
+        function showInputTypeRadio( $optionName, $value, $required, $array = false, $position = false, $options = array() ) {
+            $pos = $array ? '['.( is_numeric( $position ) ? $position : '' ).']' : '';
+            $val = esc_attr( $array ? $value[ $position ] : $value );
+            $first = true;
+
+            foreach ($options as $key => $desc) {
+
+                $fieldID = 'wp-simpleslider-option-field-'.$optionName.'-'.$key;
+
+                printf(
+                    '<div class="radio-container"><input type="radio" id="%s" name="%s%s" value="%s" %s %s/><label for="%s">%s</label></div>',
+                    $fieldID,
+                    $optionName,
+                    $pos,
+                    $key,
+                    (($val == $key) || (!$val && $first)) ? 'checked="checked"' : '', // se o valor for igual do banco ou se não tiver valor marca a primeira opção
+                    $required ? 'required' : '',
+                    $fieldID,
+                    $desc
+                );
+
+                $first = false;
+            }
+
+        }
         function setShortcodeColumn( $columns ) {
             unset( $columns['date'] );
             $columns['shortcode'] = "Shortcode";
@@ -291,6 +317,7 @@
                 update_post_meta( $post_ID, $this->metaboxButtonColor, $_POST[ $this->metaboxButtonColor ] );
                 update_post_meta( $post_ID, $this->metaboxDesktopBackgroundImageFieldName, $_POST[ $this->metaboxDesktopBackgroundImageFieldName ] );
                 update_post_meta( $post_ID, $this->metaboxMobileBackgroundImageFieldName, $_POST[ $this->metaboxMobileBackgroundImageFieldName ] );
+                update_post_meta( $post_ID, $this->metaboxTemplate, $_POST[ $this->metaboxTemplate ] );
                 
             }
         }
@@ -455,15 +482,30 @@
                 $free,
                 $position,
                 false
-            );            
+            );       
+                 
+            $this->showPostField( 
+                $post,
+                $this->metaboxTemplate, 
+                'Template', 
+                'Escolha o template que combina com seu slide.', 
+                'radio',
+                $free,
+                $position,
+                true,
+                array(
+                    1 => "Texto ajustado a esquerda"
+                )
+            );  
+            
         }
-        function showPostField( $post, $optionName, $optionTitle, $optionDesc = false, $type = 'text', $free, $position, $required = false ) {
+        function showPostField( $post, $optionName, $optionTitle, $optionDesc = false, $type = 'text', $free, $position, $required = false, $options = array() ) {
 
             $value = !$free ? get_post_meta( $post->ID, $optionName, true ) : "";
 
             echo '
                 <div class="wp-simpleslider-option-container" data-type="'.$type.'">
-                    <label for="wp-simpleslider-option-field-'.$optionName.'">'.$optionTitle.' '.( $required ? '<span class="required">*</span>' : '' ).'</label>
+                    <label class="option-title" for="wp-simpleslider-option-field-'.$optionName.'">'.$optionTitle.' '.( $required ? '<span class="required">*</span>' : '' ).'</label>
                     <p>'.($optionDesc ? $optionDesc : "").'</p>';
 
                     switch($type) {
@@ -477,6 +519,10 @@
 
                         case 'color':
                             $this->showInputTypeColor( $optionName, $value, $required, true, $position );
+                            break;
+
+                        case 'radio':
+                            $this->showInputTypeRadio( $optionName, $value, $required, true, $position, $options );
                             break;
                     }
 

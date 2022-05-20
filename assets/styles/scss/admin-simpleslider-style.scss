@@ -71,13 +71,19 @@
                     grid-template-columns: 1fr;
                 }
 
+               
+
                 .wp-simpleslider-option-container {
                     box-shadow: 0 0 1px #a3a3a3;
                     padding: 1rem;
                     box-sizing: border-box;
                     margin: 0;
 
-                    label {
+                    &:last-of-type:nth-child( odd ) {
+                        grid-column: 1 / -1;
+                    }
+
+                    .option-title {
                         font-weight: 700;
 
                         .required {
@@ -90,7 +96,21 @@
                         font-style: italic;
                     }
 
-                    input {
+                    .radio-container {
+                        margin-bottom: 0.5rem;
+
+                        input[type="radio"] {
+                            width: 1rem;
+                            height: 1rem;
+                            margin: 0 .3rem 0 0;
+                        }
+
+                        p {
+                            line-height: 1;
+                        }
+                    }
+
+                    input:not([type="radio"]) {
                         width: 100%;
 
                         &[type="color"] {
