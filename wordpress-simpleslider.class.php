@@ -226,6 +226,9 @@
         }
         function showMetabox( $post ) {
             echo '
+                <div class="shortcode">
+                    [simpleslider id="'.$post->ID.'" title="'.$post->post_title.'"]
+                </div>
                 <div class="slider-menu">
                     <button class="add-slide">Adicionar slide</button>
                 </div>
