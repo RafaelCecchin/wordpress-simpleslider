@@ -209,7 +209,7 @@
 		    	opacity: 0;
 		    	transition: transform 0.75s ease-out 0.9s, opacity 0.75s ease-out 0.9s, filter .4s;
                 padding: 1rem 1.5rem;
-                width: min-content;
+                width: fit-content;
             }
 
                 .main-simpleslider-container .main-slider .container .simpleslider-button:focus,
