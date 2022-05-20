@@ -104,6 +104,17 @@
             }
 
             #simpleslider_metabox 
+            .wp-simpleslider-option-container[data-type="image"] input {
+                max-width: 0;
+                max-height: 0;
+                padding: 0;
+                border: 1px solid transparent;
+                transform: translateX(4rem);
+                z-index: -1;
+                position: relative;
+            }
+
+            #simpleslider_metabox 
             .wp-simpleslider-option-container[data-type="image"]:not(.has-value) .update-image, 
             .wp-simpleslider-option-container[data-type="image"]:not(.has-value) .remove-image {
                 display: none;

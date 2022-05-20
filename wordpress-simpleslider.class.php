@@ -89,43 +89,48 @@
             // stylesheet
             wp_enqueue_style( 'admin-simpleslider-css', WORDPRESS_SIMPLESLIDER_URL . 'assets/style/admin-simpleslider-style.css', array(), "1.0.0", 'all' );
         }
-        function showInputTypeText( $optionName, $value, $array = false, $position = false ) {
+        function showInputTypeText( $optionName, $value, $required, $array = false, $position = false ) {
 
             $pos = $array ? '['.( is_numeric( $position ) ? $position : '' ).']' : '';
 
             printf(
-                '<input type="text" id="wp-simpleslider-option-field-%s" name="%s%s" value="%s" />',
+                '<input type="text" id="wp-simpleslider-option-field-%s" name="%s%s" value="%s" %s/>',
                 $optionName,                 
                 $optionName, 
                 $pos,
-                esc_attr( $array ? $value[ $position ] : $value )
+                esc_attr( $array ? $value[ $position ] : $value ),
+                $required ? 'required' : ''
             );
 
         }
-        function showInputTypeImage( $optionName, $value, $array = false, $position = false ) {
+        function showInputTypeImage( $optionName, $value, $required, $array = false, $position = false ) {
             
             $pos = $array ? '['.( is_numeric( $position ) ? $position : '' ).']' : '';
 
             printf(
-                '<input type="hidden" id="wp-simpleslider-option-field-%s" name="%s%s" value="%s" /><span class="button button-primary select-image" data-target="%s">Selecionar imagem</span><span class="button button-primary update-image" data-target="%s">Atualizar imagem</span><span class="button remove-image" data-target="%s">Remover imagem</span>',
+                '<input type="text" style="width: 0; height: 0; padding: 0; border: 1px solid transparent;" id="wp-simpleslider-option-field-%s" name="%s%s" value="%s" %s/><span class="button button-primary select-image" data-target="%s">Selecionar imagem</span><span class="button button-primary update-image" data-target="%s">Atualizar imagem</span><span class="button remove-image" data-target="%s">Remover imagem</span>',
                 $optionName,                
                 $optionName,
                 $pos,
                 esc_attr( $array ? $value[ $position ] : $value ),
+                $required ? 'required' : '',
                 $optionName.$pos,
                 $optionName.$pos,
                 $optionName.$pos
             );
 
         }  
-        function showInputTypeCheckbox( $optionName, $value, $array = false ) {
+        function showInputTypeCheckbox( $optionName, $value, $required, $array = false, $position = false ) {
+
+            $pos = $array ? '['.( is_numeric( $position ) ? $position : '' ).']' : '';
 
             printf(
-                '<input type="checkbox" id="wp-simpleslider-option-field-%s" name="%s%s" %s/>',
+                '<input type="checkbox" id="wp-simpleslider-option-field-%s" name="%s%s" %s %s/>',
                 $optionName,                 
                 $optionName,
-                $array ? '[]' : '', 
-                esc_attr( $value ) ? 'checked="checked"' : ''
+                $pos, 
+                esc_attr( $array ? $value[ $position ] : $value ) ? 'checked="checked"' : '',
+                $required ? 'required' : ''
             );
 
         }
@@ -196,7 +201,7 @@
             );
         }
         function showLoadSlickCheckbox() {
-            $this->showInputTypeCheckbox( $this->optionLoadSlick, get_option( $this->optionLoadSlick ) );
+            $this->showInputTypeCheckbox( $this->optionLoadSlick, get_option( $this->optionLoadSlick ), false );
         }
 
         // Post type config
@@ -325,7 +330,8 @@
                 'Texto exibido com fonte maior.', 
                 'text',
                 $free,
-                $position
+                $position,
+                true
             );
 
             $this->showPostField( 
@@ -335,7 +341,8 @@
                 'Texto exibido com a fonte menor, logo abaixo do texto principal.', 
                 'text',
                 $free,
-                $position
+                $position,
+                false
             );
 
             $this->showPostField( 
@@ -345,7 +352,8 @@
                 'Texto exibido dentro do botão.', 
                 'text',
                 $free,
-                $position
+                $position,
+                false
             );
 
             $this->showPostField( 
@@ -355,7 +363,8 @@
                 'Link da página para qual o botão deverá redirecionar.', 
                 'text',
                 $free,
-                $position
+                $position,
+                false
             );
 
             $this->showPostField( 
@@ -365,7 +374,8 @@
                 'Hexadecimal rerefente a cor do texto.', 
                 'text',
                 $free,
-                $position
+                $position,
+                false
             );
 
             $this->showPostField( 
@@ -375,7 +385,8 @@
                 'Hexadecimal rerefente a cor do botão.', 
                 'text',
                 $free,
-                $position
+                $position,
+                false
             );
 
             $this->showPostField( 
@@ -387,7 +398,8 @@
                 que a imagem tenha um tratamento prévio para reduzir o tamanho.', 
                 'image',
                 $free,
-                $position
+                $position,
+                true
             );
 
             $this->showPostField( 
@@ -399,10 +411,11 @@
                 de largura por 800 pixels de altura.', 
                 'image',
                 $free,
-                $position
+                $position,
+                true
             );            
         }
-        function showPostField( $post, $optionName, $optionTitle, $optionDesc = false, $type = 'text', $free, $position ) {
+        function showPostField( $post, $optionName, $optionTitle, $optionDesc = false, $type = 'text', $free, $position, $required = false ) {
 
             $value = !$free ? get_post_meta( $post->ID, $optionName, true ) : "";
 
@@ -413,11 +426,11 @@
 
                     switch($type) {
                         case 'text':
-                            $this->showInputTypeText( $optionName, $value, true, $position );
+                            $this->showInputTypeText( $optionName, $value, $required, true, $position );
                             break;
 
                         case 'image':
-                            $this->showInputTypeImage( $optionName, $value, true, $position );
+                            $this->showInputTypeImage( $optionName, $value, $required, true, $position );
                             break;
                     }
 
