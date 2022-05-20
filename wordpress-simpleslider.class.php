@@ -257,7 +257,7 @@
                     '.$this->getShortcode( $post->ID, $post->post_title ).'
                 </div>
                 <div class="slider-menu">
-                    <button class="add-slide">Adicionar slide</button>
+                    <button class="button button-secondary button-large add-slide">Adicionar slide</button>
                 </div>
             ';
             $this->createPostLines( $post );
