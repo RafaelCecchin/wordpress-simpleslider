@@ -1,0 +1,133 @@
+@import "./settings";
+
+#simpleslider_metabox {
+
+    .inside {
+        margin: 0;
+        padding: 1rem;
+
+        .shortcode {
+            background-color: $blue;
+            color: $white;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+    
+        .slider-menu {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #6d6d6d;
+        }
+
+        .wp-simpleslider-line {
+            margin-bottom: 1rem;
+
+            .line-header {
+                width: auto;
+                background-color: $white;
+                box-shadow: 0 0 2px #6d6d6d;
+                padding: .5rem;
+                overflow: hidden;
+                display: flex;
+                align-items: center;
+                justify-content: end;
+
+                button {
+                    margin-left: .5rem;
+                    width: 1.6rem;
+                    height: 1.6rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+
+                    svg {
+                        width: 11px;
+                        height: 14px;
+                    }
+
+                }
+            }
+
+            .line-body {
+                flex-wrap: wrap;
+                box-shadow: 0 0 1px #a3a3a3;
+                padding: 0;
+                margin: 0;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+
+                &.closed {
+                    display: none;
+                }
+
+                @media screen and (max-width: 800px) {
+                    grid-template-columns: 1fr;
+                }
+
+                @media screen and (max-width: 800px) {
+                    grid-template-columns: 1fr;
+                }
+
+                .wp-simpleslider-option-container {
+                    box-shadow: 0 0 1px #a3a3a3;
+                    padding: 1rem;
+                    box-sizing: border-box;
+                    margin: 0;
+
+                    label {
+                        font-weight: 700;
+
+                        .required {
+                            color: #f00;
+                        }
+                    }
+
+                    p {
+                        font-size: 13px;
+                        font-style: italic;
+                    }
+
+                    input {
+                        width: 100%;
+
+                        &[type="color"] {
+                            width: 4rem;
+                        }
+                    }
+
+                    &[data-type="image"] {
+
+                        input {
+                            max-width: 0;
+                            max-height: 0;
+                            padding: 0;
+                            border: 1px solid transparent;
+                            transform: translateX(4rem);
+                            z-index: -1;
+                            position: relative;
+                        }
+
+                        &:not(.has-value) {
+
+                            .update-image, .remove-image {
+                                display: none;
+                            }
+
+                        }
+
+                        &.has-value .select-image {
+                            display: none;
+                        }
+
+                        .remove-image {
+                            margin-left: 1rem;
+                        }
+                    }
+                }
+            }
+        }
+    }   
+}

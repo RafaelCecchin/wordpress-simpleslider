@@ -99,7 +99,7 @@
         }
         function adminEnqueueScripts() {
             // js
-            wp_enqueue_script( 'admin-simpleslider-js', WORDPRESS_SIMPLESLIDER_URL . 'assets/scripts/admin-simpleslider-script.js', false, "1.0.0", true );    
+            wp_enqueue_script( 'admin-simpleslider-js', WORDPRESS_SIMPLESLIDER_URL . 'assets/scripts/admin-simpleslider-script-min.js', false, "1.0.0", true );    
             wp_enqueue_media();
 
             add_action( 'admin_head', function() {
@@ -490,7 +490,7 @@
                 wp_enqueue_style( 'slick-css','http://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css', false, "1.0.0", 'all' );
             }
             
-            wp_enqueue_script( 'user-simpleslider-js', WORDPRESS_SIMPLESLIDER_URL . 'assets/scripts/user-simpleslider-script.js', array( 'slick-js', 'jquery' ), "1.0.0", true );            
+            wp_enqueue_script( 'user-simpleslider-js', WORDPRESS_SIMPLESLIDER_URL . 'assets/scripts/user-simpleslider-script-min.js', array( 'slick-js', 'jquery' ), "1.0.0", true );            
             wp_enqueue_style( 'user-simpleslider-css', WORDPRESS_SIMPLESLIDER_URL . 'assets/styles/user-simpleslider-style.css', array(), "1.0.0", 'all' );
         }
         function showSliders( $atts ) {
