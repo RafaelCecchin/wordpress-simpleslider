@@ -236,9 +236,14 @@
             
             $slides = $this->getSliderMeta( $post->ID );
 
-            foreach ($slides as $key => $slide) {
-                $this->showPostLine( $post, false, $key ); 
+            if (!empty($slides)) {
+                foreach ($slides as $key => $slide) {
+                    $this->showPostLine( $post, false, $key ); 
+                }
+            } else {
+                $this->showPostLine( $post, true ); 
             }
+            
                    
         }
         function showPostLine( $post, $free = false, $position = false ) {
