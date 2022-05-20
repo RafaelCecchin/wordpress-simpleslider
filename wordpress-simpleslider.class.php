@@ -421,7 +421,7 @@
 
             echo '
                 <div class="wp-simpleslider-option-container" data-type="'.$type.'">
-                    <label for="wp-simpleslider-option-field-'.$optionName.'">'.$optionTitle.'</label>
+                    <label for="wp-simpleslider-option-field-'.$optionName.'">'.$optionTitle.' '.( $required ? '<span class="required">*</span>' : '' ).'</label>
                     <p>'.($optionDesc ? $optionDesc : "").'</p>';
 
                     switch($type) {

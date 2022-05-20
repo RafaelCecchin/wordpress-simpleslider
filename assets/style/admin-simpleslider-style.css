@@ -91,6 +91,12 @@
             label {
                 font-weight: 700;
             }
+            
+            #simpleslider_metabox 
+            label .required {
+                color: #f00;
+            }
+            
 
             #simpleslider_metabox 
             p {
