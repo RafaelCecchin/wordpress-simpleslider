@@ -136,7 +136,7 @@
                 $optionName,                 
                 $optionName, 
                 $pos,
-                esc_attr( $array ? $value[ $position ] : $value ),
+                esc_attr( $array && !empty($value) ? $value[ $position ] : $value ),
                 $required ? 'required' : ''
             );
 
@@ -150,7 +150,7 @@
                 $optionName,                 
                 $optionName, 
                 $pos,
-                esc_attr( $array ? $value[ $position ] : $value ),
+                esc_attr( $array && !empty($value) ? $value[ $position ] : $value ),
                 $required ? 'required' : ''
             );
 
@@ -158,7 +158,7 @@
         function showInputTypeImage( $optionName, $value, $required, $array = false, $position = false ) {
             
             $pos = $array ? '['.( is_numeric( $position ) ? $position : '' ).']' : '';
-            $val = esc_attr( $array ? $value[ $position ] : $value );
+            $val = esc_attr( $array && !empty($value) ? $value[ $position ] : $value );
 
             printf(
                 '<input type="text" style="width: 0; height: 0; padding: 0; border: 1px solid transparent;" id="wp-simpleslider-option-field-%s" name="%s%s" value="%s" %s/><span class="button button-primary select-image" data-target="%s">Selecionar imagem</span><span class="button button-primary update-image" data-target="%s">Atualizar imagem</span><span class="button remove-image" data-target="%s">Remover imagem</span><img class="image-preview" src="%s"/>',
@@ -183,14 +183,14 @@
                 $optionName,                 
                 $optionName,
                 $pos, 
-                esc_attr( $array ? $value[ $position ] : $value ) ? 'checked="checked"' : '',
+                esc_attr( $array && !empty($value) ? $value[ $position ] : $value ) ? 'checked="checked"' : '',
                 $required ? 'required' : ''
             );
 
         }
         function showInputTypeRadio( $optionName, $value, $required, $array = false, $position = false, $options = array() ) {
             $pos = $array ? '['.( is_numeric( $position ) ? $position : '' ).']' : '';
-            $val = esc_attr( $array ? $value[ $position ] : $value );
+            $val = esc_attr( $array && !empty($value) ? $value[ $position ] : $value );
             $first = true;
 
             foreach ($options as $key => $desc) {
