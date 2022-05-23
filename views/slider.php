@@ -21,9 +21,11 @@
                     <p style="color: <?php echo $slide['text_color']; ?>;">
                         <?php echo $slide['secondary_text']; ?>
                     </p>
-                    <a href="<?php echo $slide['button_link']; ?>" class="simpleslider-button" style="color: <?php echo $slide['text_color']; ?>; background-color: <?php echo $slide['button_color']; ?>;">
-                        <?php echo $slide['button_text']; ?>
-                    </a>
+                    <?php if ($slide['button_text']): ?>
+                        <a href="<?php echo $slide['button_link']; ?>" class="simpleslider-button" style="color: <?php echo $slide['text_color']; ?>; background-color: <?php echo $slide['button_color']; ?>;">
+                            <?php echo $slide['button_text']; ?>
+                        </a>
+                    <?php endif; ?>
                 </div>
             </div>
 
