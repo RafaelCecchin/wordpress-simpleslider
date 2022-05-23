@@ -15,12 +15,16 @@
             <div class="slide <?php echo $slide['text_align']; ?>">            
                 <?php echo $slide['image_html']; ?>                                    
                 <div class="container">
-                    <h2 style="color: <?php echo $slide['text_color']; ?>;">
-                        <?php echo $slide['main_text']; ?>
-                    </h2>
-                    <p style="color: <?php echo $slide['text_color']; ?>;">
-                        <?php echo $slide['secondary_text']; ?>
-                    </p>
+                    <?php if ($slide['main_text']): ?>
+                        <h2 style="color: <?php echo $slide['text_color']; ?>;">
+                            <?php echo $slide['main_text']; ?>
+                        </h2>
+                    <?php endif; ?>
+                    <?php if ($slide['secondary_text']): ?>
+                        <p style="color: <?php echo $slide['text_color']; ?>;">
+                            <?php echo $slide['secondary_text']; ?>
+                        </p>
+                    <?php endif; ?>
                     <?php if ($slide['button_text']): ?>
                         <a href="<?php echo $slide['button_link']; ?>" class="simpleslider-button" style="color: <?php echo $slide['text_color']; ?>; background-color: <?php echo $slide['button_color']; ?>;">
                             <?php echo $slide['button_text']; ?>
