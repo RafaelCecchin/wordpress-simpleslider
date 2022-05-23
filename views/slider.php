@@ -12,8 +12,7 @@
     <div class="main-slider">
 
         <?php foreach ($slides as $slide): ?>
-
-            <div class="slide">            
+            <div class="slide <?php echo $slide['text_align']; ?>">            
                 <?php echo $slide['image_html']; ?>                                    
                 <div class="container">
                     <h2 style="color: <?php echo $slide['text_color']; ?>;">

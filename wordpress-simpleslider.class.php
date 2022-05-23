@@ -45,6 +45,7 @@
                 'button_text' => get_post_meta( $post_id, $this->metaboxButtonTextFieldName, true ),
                 'button_link' => get_post_meta( $post_id, $this->metaboxButtonLinkFieldName, true ),
                 'text_color'   => get_post_meta( $post_id, $this->metaboxTextColor, true ),
+                'text_align'   => get_post_meta( $post_id, $this->metaboxTemplate, true ),
                 'button_color'   => get_post_meta( $post_id, $this->metaboxButtonColor, true ),
                 'desktop_background_image' => get_post_meta( $post_id, $this->metaboxDesktopBackgroundImageFieldName, true ),
                 'mobile_background_image' => get_post_meta( $post_id, $this->metaboxMobileBackgroundImageFieldName, true )
@@ -498,9 +499,9 @@
                 $position,
                 false,
                 array(
-                    1 => "Texto ajustado a esquerda",
-                    2 => "Texto ajustado ao centro",
-                    3 => "Texto ajustado a direita"
+                    'left' => "Texto ajustado a esquerda",
+                    'center' => "Texto ajustado ao centro",
+                    'right' => "Texto ajustado a direita"
                 )
             );  
             
