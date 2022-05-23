@@ -609,7 +609,7 @@
                     if ($slides) {
 
                         set_query_var( 'slides', $slides ); 
-                        include(WORDPRESS_SIMPLESLIDER_PLUGIN_DIR."views\\slider.php");
+                        include(WORDPRESS_SIMPLESLIDER_PLUGIN_DIR."views/slider.php");
                         
                     } else {
                         echo "Nenhum slide encontrado no slider selecionado.";
