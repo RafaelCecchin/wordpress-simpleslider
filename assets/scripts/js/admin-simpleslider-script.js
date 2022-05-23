@@ -46,8 +46,6 @@ function openMediaPanel() {
         inputImage.value = attachment.id;
         imagePreview.src = attachment.url;
 
-        console.log( inputImage );
-
         updateImageButtons();
     });
 
