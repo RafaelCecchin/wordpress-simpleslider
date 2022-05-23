@@ -344,8 +344,13 @@
                 <div class="slider-menu">
                     <button class="button button-secondary button-large add-slide">Adicionar slide</button>
                 </div>
+                <div class="lines">
             ';
+
             $this->createPostLines( $post );
+            
+            echo '
+                </div>';
         }
         function createPostLines( $post ) {  
             
@@ -365,29 +370,59 @@
             echo '
                 <div class="wp-simpleslider-line"> 
                     <div class="line-header">
-                        <button class="minimize-slider">
-                            <svg width="16px" height="6px" viewBox="0 0 16 6" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <title>space_bar</title>
+                        <button class="button-secondary move-top">
+                            <svg width="12px" height="8px" viewBox="0 0 12 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <title>expand_less</title>
                                 <desc>Created with Sketch.</desc>
                                 <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                    <g id="Outlined" transform="translate(-478.000000, -2111.000000)">
-                                        <g id="Editor" transform="translate(100.000000, 1960.000000)">
-                                            <g id="Outlined-/-Editor-/-space_bar" transform="translate(374.000000, 142.000000)">
+                                    <g id="Outlined" transform="translate(-276.000000, -3484.000000)">
+                                        <g id="Navigation" transform="translate(100.000000, 3378.000000)">
+                                            <g id="Outlined-/-Navigation-/-expand_less" transform="translate(170.000000, 98.000000)">
                                                 <g>
                                                     <polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
-                                                    <polygon id="🔹-Icon-Color" fill="#000000" points="18 9 18 13 6 13 6 9 4 9 4 15 20 15 20 9"></polygon>
+                                                    <polygon id="🔹-Icon-Color" fill="#2271b1" points="12 8 6 14 7.41 15.41 12 10.83 16.59 15.41 18 14"></polygon>
                                                 </g>
                                             </g>
                                         </g>
                                     </g>
                                 </g>
                             </svg>
+                        </button>
+                        <button class="button-secondary move-down">
+                        <svg width="12px" height="8px" viewBox="0 0 12 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <title>expand_more</title>
+                            <desc>Created with Sketch.</desc>
+                            <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <g id="Outlined" transform="translate(-242.000000, -3484.000000)">
+                                    <g id="Navigation" transform="translate(100.000000, 3378.000000)">
+                                        <g id="Outlined-/-Navigation-/-expand_more" transform="translate(136.000000, 98.000000)">
+                                            <g>
+                                                <polygon id="Path" opacity="0.87" points="24 24 0 24 0 0 24 0"></polygon>
+                                                <polygon id="🔹-Icon-Color" fill="#2271b1" points="16.59 8.59 12 13.17 7.41 8.59 6 10 12 16 18 10"></polygon>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                            </g>
+                        </svg>
+                        </button>
+                        <button class="button-secondary minimize-slider">
+                            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                            viewBox="0 0 352.054 352.054" style="enable-background:new 0 0 352.054 352.054;" xml:space="preserve">
+                                <g>
+                                    <polygon fill="#2271b1" points="144.206,186.634 30,300.84 30,238.059 0,238.059 0,352.054 113.995,352.054 113.995,322.054 51.212,322.054 
+                                        165.419,207.847 	"/>
+                                    <polygon fill="#2271b1" points="238.059,0 238.059,30 300.84,30 186.633,144.208 207.846,165.42 322.054,51.213 322.054,113.995 352.054,113.995 
+                                        352.054,0 	"/>
+                                </g>
+                            </svg>   
                         </button>                        
-                        <button class="remove-slider">
+                        <button class="button-secondary remove-slider">
                             <svg version="1.1" id="cross-11" xmlns="http://www.w3.org/2000/svg" width="11px" height="11px" viewBox="0 0 11 11">
-                                <path d="M2.2,1.19l3.3,3.3L8.8,1.2C8.9314,1.0663,9.1127,0.9938,9.3,1C9.6761,1.0243,9.9757,1.3239,10,1.7&#xA;&#x9;c0.0018,0.1806-0.0705,0.3541-0.2,0.48L6.49,5.5L9.8,8.82C9.9295,8.9459,10.0018,9.1194,10,9.3C9.9757,9.6761,9.6761,9.9757,9.3,10&#xA;&#x9;c-0.1873,0.0062-0.3686-0.0663-0.5-0.2L5.5,6.51L2.21,9.8c-0.1314,0.1337-0.3127,0.2062-0.5,0.2C1.3265,9.98,1.02,9.6735,1,9.29&#xA;&#x9;C0.9982,9.1094,1.0705,8.9359,1.2,8.81L4.51,5.5L1.19,2.18C1.0641,2.0524,0.9955,1.8792,1,1.7C1.0243,1.3239,1.3239,1.0243,1.7,1&#xA;&#x9;C1.8858,0.9912,2.0669,1.06,2.2,1.19z"/>
+                                <path fill="#2271b1" d="M2.2,1.19l3.3,3.3L8.8,1.2C8.9314,1.0663,9.1127,0.9938,9.3,1C9.6761,1.0243,9.9757,1.3239,10,1.7&#xA;&#x9;c0.0018,0.1806-0.0705,0.3541-0.2,0.48L6.49,5.5L9.8,8.82C9.9295,8.9459,10.0018,9.1194,10,9.3C9.9757,9.6761,9.6761,9.9757,9.3,10&#xA;&#x9;c-0.1873,0.0062-0.3686-0.0663-0.5-0.2L5.5,6.51L2.21,9.8c-0.1314,0.1337-0.3127,0.2062-0.5,0.2C1.3265,9.98,1.02,9.6735,1,9.29&#xA;&#x9;C0.9982,9.1094,1.0705,8.9359,1.2,8.81L4.51,5.5L1.19,2.18C1.0641,2.0524,0.9955,1.8792,1,1.7C1.0243,1.3239,1.3239,1.0243,1.7,1&#xA;&#x9;C1.8858,0.9912,2.0669,1.06,2.2,1.19z"/>
                             </svg>
                         </button>
+                        
                     </div>
                     <div class="line-body '.($free ? "" : "closed").'">';
                     

@@ -176,7 +176,55 @@ if (addSlideButton) {
             element.addEventListener( 'click', removeMediaValue );
         });
 
-        document.querySelector(`#simpleslider_metabox .inside`).appendChild( line );
+        document.querySelector(`#simpleslider_metabox .lines`).appendChild( line );
     });
 
+}
+
+/* Botões para reordenar */
+
+const moveDownButtons = [...document.querySelectorAll(`#simpleslider_metabox .move-down`)];
+const moveTopButtons = [...document.querySelectorAll(`#simpleslider_metabox .move-top`)];
+
+if (moveDownButtons) {
+    moveDownButtons.forEach(moveDownButton => {
+        moveDownButton.addEventListener('click', moveDown);
+    });
+}
+
+if (moveTopButtons) {
+    moveTopButtons.forEach(moveTopButton => {
+        moveTopButton.addEventListener('click', moveTop);
+    });
+}
+
+function moveDown( event ) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    let current = this.parentElement.parentElement;
+    let pai = current.parentElement;
+    let next = current.nextElementSibling;
+    let auxNext = next;
+
+    if ( next ) {
+        next.remove();
+        pai.insertBefore(auxNext, current);
+    }
+
+}
+
+function moveTop( event ) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    let current = this.parentElement.parentElement;
+    let pai = current.parentElement;
+    let prev = current.previousElementSibling;
+    let auxCurrent = current;
+
+    if ( prev ) {
+        current.remove();
+        pai.insertBefore(auxCurrent, prev);   
+    }
 }
