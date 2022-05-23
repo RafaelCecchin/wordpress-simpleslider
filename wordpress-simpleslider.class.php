@@ -50,17 +50,21 @@
                 'mobile_background_image' => get_post_meta( $post_id, $this->metaboxMobileBackgroundImageFieldName, true )
             );
 
-            $number = is_array($dados['main_text']) ? count( $dados['main_text'] ) : 0;
+            $indexes = [];
+            if ( is_array($dados['main_text']) ) {
+                foreach ($dados['main_text'] as $key => $value) {
+                    array_push($indexes, $key);
+                }
+            }
             
             $array = [];
-
-            for ($i = 0; $i < $number; $i++) {
+            foreach ($indexes as $index) {
                 foreach ($dados as $key => $dado ) {
-                    $array[$i][$key] = $dado[$i];            
+                    $array[$index][$key] = $dado[$index];            
                 }
 
-                $array[$i]['image_html'] = $this->getSlideHTML( $array[$i]['desktop_background_image'], $array[$i]['mobile_background_image'] );
-            }            
+                $array[$index]['image_html'] = $this->getSlideHTML( $array[$index]['desktop_background_image'], $array[$index]['mobile_background_image'] );
+            }   
 
             return $array;
         }
@@ -185,7 +189,7 @@
 
             foreach ($options as $key => $desc) {
 
-                $fieldID = 'wp-simpleslider-option-field-'.$optionName.'-'.$key;
+                $fieldID = 'wp-simpleslider-option-field-'.$optionName.$pos.'['.$key.']';
 
                 printf(
                     '<div class="radio-container"><input type="radio" id="%s" name="%s%s" value="%s" %s %s/><label for="%s">%s</label></div>',
@@ -492,9 +496,11 @@
                 'radio',
                 $free,
                 $position,
-                true,
+                false,
                 array(
-                    1 => "Texto ajustado a esquerda"
+                    1 => "Texto ajustado a esquerda",
+                    2 => "Texto ajustado ao centro",
+                    3 => "Texto ajustado a direita"
                 )
             );  
             

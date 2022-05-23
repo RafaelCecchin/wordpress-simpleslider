@@ -24,7 +24,7 @@ function updateImageButtons() {
 
 
 function openMediaPanel() {
-    let optionName = this.getAttribute('data-target');
+    // let optionName = this.getAttribute('data-target');
     let inputImage = this.parentElement.querySelector(`input`);
     let imagePreview = this.parentElement.querySelector(`img`);
 
@@ -45,6 +45,8 @@ function openMediaPanel() {
         
         inputImage.value = attachment.id;
         imagePreview.src = attachment.url;
+
+        console.log( inputImage );
 
         updateImageButtons();
     });
@@ -134,9 +136,35 @@ if (addSlideButton) {
         let updateImageBtns = wrapper.querySelectorAll('.update-image');
         let removeImageBtns = wrapper.querySelectorAll('.remove-image');
 
+        let optionID = new Date().getTime();
+        let options = [...wrapper.querySelectorAll(`.wp-simpleslider-option-container`)];
+        if (options.length) {
+            options.forEach( option => {
+                let inputs = [...option.querySelectorAll(`input`)];
+                let labels = [...option.querySelectorAll(`label`)];
+
+                inputs.forEach(input => {
+                    let name = input.name;
+                    let id = input.id;
+
+                    let new_name = name.replace( '[]', '['+optionID+']' );
+                    input.name = new_name;
+
+                    let new_id = id.replace( '[]', '['+optionID+']' );
+                    input.id = new_id;
+                });
+                
+                labels.forEach(label => {
+                    let forID = label.getAttribute("for");
+                    let newForID = forID.replace( '[]', '['+optionID+']' );
+
+                    label.setAttribute( "for", newForID );
+                });
+            });      
+        }
+
         minimizeSlideBtn.addEventListener( 'click', minimizeSlide );
         removeSlideBtn.addEventListener( 'click', removeSlide );
-
         
         selectImageBtns.forEach(element => {
             element.addEventListener( 'click', openMediaPanel );
@@ -149,7 +177,6 @@ if (addSlideButton) {
         removeImageBtns.forEach(element => {
             element.addEventListener( 'click', removeMediaValue );
         });
-               
 
         document.querySelector(`#simpleslider_metabox .inside`).appendChild( line );
     });
