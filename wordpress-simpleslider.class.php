@@ -12,6 +12,7 @@
         private $metaboxDesktopBackgroundImageFieldName = "simpleslider_desktop_background_image_field";
         private $metaboxMobileBackgroundImageFieldName = "simpleslider_mobile_background_image_field";
         private $metaboxTemplate = "simpleslider_template_field";
+        private $metaboxButtonClass = "simpleslider_button_class";
 
         private $metaboxTextColor = "simpleslider_text_color";
         private $metaboxButtonColor = "simpleslider_btn_color";
@@ -45,16 +46,17 @@
 
         function getSliderMeta( $post_id ) {            
             $dados = array(
-                'main_text' => get_post_meta( $post_id, $this->metaboxMainTextFieldName, true ),
-                'secondary_text' => get_post_meta( $post_id, $this->metaboxSecondaryTextFieldName, true ),
-                'button_text' => get_post_meta( $post_id, $this->metaboxButtonTextFieldName, true ),
-                'button_link' => get_post_meta( $post_id, $this->metaboxButtonLinkFieldName, true ),
-                'text_color'   => get_post_meta( $post_id, $this->metaboxTextColor, true ),
-                'text_align'   => get_post_meta( $post_id, $this->metaboxTemplate, true ),
-                'button_color'   => get_post_meta( $post_id, $this->metaboxButtonColor, true ),
-                'button_text_color'   => get_post_meta( $post_id, $this->metaboxButtonTextColor, true ),
-                'desktop_background_image' => get_post_meta( $post_id, $this->metaboxDesktopBackgroundImageFieldName, true ),
-                'mobile_background_image' => get_post_meta( $post_id, $this->metaboxMobileBackgroundImageFieldName, true )
+                'main_text'                 => get_post_meta( $post_id, $this->metaboxMainTextFieldName, true ),
+                'secondary_text'            => get_post_meta( $post_id, $this->metaboxSecondaryTextFieldName, true ),
+                'button_text'               => get_post_meta( $post_id, $this->metaboxButtonTextFieldName, true ),
+                'button_link'               => get_post_meta( $post_id, $this->metaboxButtonLinkFieldName, true ),
+                'text_color'                => get_post_meta( $post_id, $this->metaboxTextColor, true ),
+                'button_class'              => get_post_meta( $post_id, $this->metaboxButtonClass, true ),
+                'text_align'                => get_post_meta( $post_id, $this->metaboxTemplate, true ),
+                'button_color'              => get_post_meta( $post_id, $this->metaboxButtonColor, true ),
+                'button_text_color'         => get_post_meta( $post_id, $this->metaboxButtonTextColor, true ),
+                'desktop_background_image'  => get_post_meta( $post_id, $this->metaboxDesktopBackgroundImageFieldName, true ),
+                'mobile_background_image'   => get_post_meta( $post_id, $this->metaboxMobileBackgroundImageFieldName, true )
             );
 
             $indexes = [];
@@ -450,6 +452,7 @@
                 update_post_meta( $post_ID, $this->metaboxDesktopBackgroundImageFieldName, $_POST[ $this->metaboxDesktopBackgroundImageFieldName ] );
                 update_post_meta( $post_ID, $this->metaboxMobileBackgroundImageFieldName, $_POST[ $this->metaboxMobileBackgroundImageFieldName ] );
                 update_post_meta( $post_ID, $this->metaboxTemplate, $_POST[ $this->metaboxTemplate ] );
+                update_post_meta( $post_ID, $this->metaboxButtonClass, $_POST[ $this->metaboxButtonClass ] );                
                 
             }
         }
@@ -638,20 +641,15 @@
 
             $this->showPostField( 
                 $post,
-                $this->metaboxTemplate, 
-                'Template', 
-                'Escolha o template que combina com seu slide.', 
-                'radio',
+                $this->metaboxButtonClass, 
+                'Classe do botão', 
+                'Classe para estilizar o botão.', 
+                'text',
                 $free,
                 $position,
-                false,
-                array(
-                    'left' => "Texto ajustado a esquerda",
-                    'center' => "Texto ajustado ao centro",
-                    'right' => "Texto ajustado a direita"
-                )
-            );  
-
+                false
+            );
+           
             $this->showPostField( 
                 $post,
                 $this->metaboxDesktopBackgroundImageFieldName, 
@@ -677,6 +675,21 @@
                 false
             );       
             
+            $this->showPostField( 
+                $post,
+                $this->metaboxTemplate, 
+                'Template', 
+                'Escolha o template que combina com seu slide.', 
+                'radio',
+                $free,
+                $position,
+                false,
+                array(
+                    'left' => "Texto ajustado a esquerda",
+                    'center' => "Texto ajustado ao centro",
+                    'right' => "Texto ajustado a direita"
+                )
+            ); 
         }
         function showPostField( $post, $optionName, $optionTitle, $optionDesc = false, $type = 'text', $free, $position, $required = false, $options = array() ) {
 
