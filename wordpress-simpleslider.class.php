@@ -67,6 +67,7 @@
                 }
 
                 $array[$index]['image_html'] = $this->getSlideHTML( $array[$index]['desktop_background_image'], $array[$index]['mobile_background_image'] );
+                $array[$index]['id'] = $index;
             }   
 
             return $array;
@@ -625,6 +626,26 @@
             wp_enqueue_script( 'user-simpleslider-js', WORDPRESS_SIMPLESLIDER_URL . 'assets/scripts/user-simpleslider-script-min.js', array( 'slick-js', 'jquery' ), "1.0.0", true );            
             wp_enqueue_style( 'user-simpleslider-css', WORDPRESS_SIMPLESLIDER_URL . 'assets/styles/user-simpleslider-style.css', array(), "1.0.0", 'all' );
         }
+        function slidersDinamicCSS( $slides ) {
+
+                echo '<style id="simpleslider-slides-style">';
+
+                    foreach ( $slides as $key => $slide ) {
+                        echo '.main-simpleslider-container .slide-'.$key.' .simpleslider-title, .main-simpleslider-container .slide-'.$key.' .simpleslider-text {
+                                color: '.$slide['text_color'].';
+                            }
+
+                            .main-simpleslider-container .slide-'.$key.' .simpleslider-button {
+                                color: '.$slide['button_text_color'].';
+                                background-color: '.$slide['button_color'].';
+                            } 
+                            
+                            ';
+                    }
+
+                echo '</style>';
+            
+        }
         function showSliders( $atts ) {
 
             if ( isset( $atts["id"] ) ) {
@@ -644,7 +665,10 @@
                     $slides = $this->getSliderMeta( $id );
                     $config = $this->getOptions();
 
-                    if ($slides) {
+                    if ( $slides ) {
+                        
+
+                        $this->slidersDinamicCSS( $slides );
 
                         set_query_var( 'slides', $slides ); 
                         set_query_var( 'config', $config ); 
@@ -664,4 +688,5 @@
                 echo "ID não informado.";
             }
         }
+
     }
