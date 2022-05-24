@@ -247,5 +247,5 @@ function updateColor() {
     let current = this;
     let prev = current.previousElementSibling;
 
-    prev.value = current.value;
+    prev.style.background = current.value;
 }

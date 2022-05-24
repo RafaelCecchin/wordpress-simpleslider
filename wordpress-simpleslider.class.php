@@ -173,7 +173,7 @@
             $val = esc_attr( $array && !empty($value) ? $value[ $position ] : $value );
 
             printf(
-                '<input type="color" id="wp-simpleslider-option-field-%s" value="%s" disabled/><input type="text" color-target="wp-simpleslider-option-field-%s" class="aux-color" name="%s%s" value="%s" %s/>',
+                '<div class="color-preview" id="wp-simpleslider-option-field-%s" style="background: %s"/></div><input type="text" color-target="wp-simpleslider-option-field-%s" class="aux-color" name="%s%s" value="%s" %s/>',
                 $optionName,
                 $val,   
                 $optionName,              
