@@ -57,15 +57,15 @@
 			
 			width: 100vw;
 			height: 0;
-			padding-top: 41.6667vw;
+			//padding-top: 41.6667vw;
 			
-			@media screen and (max-width: $lg) {
+			/*@media screen and (max-width: $lg) {
 				padding-top: 75vw;
 			}
 			
 			@media screen and (max-width: $sm) {
 				padding-top: 133.33334vw;
-			}
+			}*/
 			
 			&:before {
 				position: absolute;

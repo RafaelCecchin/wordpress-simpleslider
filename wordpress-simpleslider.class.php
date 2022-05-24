@@ -23,6 +23,8 @@
         private $optionLoadSlick = "simpleslider_load_slick";
         private $optionButtonsClass = "simpleslider_buttons_class";
         private $optionActiveDotColor = "simpleslider_active_dot_color";
+        private $optionImageWidth = "simpleslider_image_width";
+        private $optionImageHeight = "simpleslider_image_height";
 
         function __construct() {            
             register_activation_hook( WORDPRESS_SIMPLESLIDER_FILE, array( &$this, 'activate' ) );
@@ -112,6 +114,8 @@
         function setDefaultConfig() {
             update_option( $this->optionLoadSlick, 'true' );
             update_option( $this->optionActiveDotColor, '#FFFFFF' );
+            update_option( $this->optionImageWidth, '1920' );
+            update_option( $this->optionImageHeight, '800' );
         }
         function adminEnqueueScripts() {
             // js
@@ -138,6 +142,20 @@
 
             printf(
                 '<input type="text" id="wp-simpleslider-option-field-%s" name="%s%s" value="%s" %s/>',
+                $optionName,                 
+                $optionName, 
+                $pos,
+                esc_attr( $array && !empty($value) ? $value[ $position ] : $value ),
+                $required ? 'required' : ''
+            );
+
+        }
+        function showInputTypeNumber( $optionName, $value, $required, $array = false, $position = false ) {
+
+            $pos = $array ? '['.( is_numeric( $position ) ? $position : '' ).']' : '';
+
+            printf(
+                '<input type="number" id="wp-simpleslider-option-field-%s" name="%s%s" value="%s" %s/>',
                 $optionName,                 
                 $optionName, 
                 $pos,
@@ -306,6 +324,30 @@
                     'label_for' => $this->optionButtonsClass
                 )
             );    
+
+            register_setting( $this->configGroupSlug, $this->optionImageWidth );
+            add_settings_field(
+                $this->optionImageWidth,
+                "Largura da imagem (px)",
+                array($this, 'showOptionImageWidth'),
+                $this->configPageSlug,
+                $this->configSectionSlug,       
+                array( 
+                    'label_for' => $this->optionImageWidth
+                )
+            ); 
+
+            register_setting( $this->configGroupSlug, $this->optionImageHeight );
+            add_settings_field(
+                $this->optionImageHeight,
+                "Altura da imagem (px)",
+                array($this, 'showOptionImageHeight'),
+                $this->configPageSlug,
+                $this->configSectionSlug,       
+                array( 
+                    'label_for' => $this->optionImageHeight
+                )
+            ); 
             
               
         }
@@ -318,12 +360,28 @@
         function showOptionButtonsClass() {
             $this->showInputTypeText( $this->optionButtonsClass, get_option( $this->optionButtonsClass ), false );
         }
+        function showOptionImageWidth() {
+            $this->showInputTypeNumber( $this->optionImageWidth, get_option( $this->optionImageWidth ), true );
+        }
+        function showOptionImageHeight() {
+            $this->showInputTypeNumber( $this->optionImageHeight, get_option( $this->optionImageHeight ), true );
+        }
         function getOptions() {
             $config = array(
                 "load_slick" => get_option( $this->optionLoadSlick ),
                 "buttons_class" => get_option( $this->optionButtonsClass ),
-                "slick_active_dot" => get_option( $this->optionActiveDotColor )
+                "slick_active_dot" => get_option( $this->optionActiveDotColor ),
+                "image_width" => get_option( $this->optionImageWidth ),
+                "image_height" => get_option( $this->optionImageHeight )
             );
+            
+            /* Padding */
+            $razao = ( $config['image_height'] / $config['image_width'] );
+            $config = array_merge( $config, array(
+                "padding_desktop" => $razao * 100,
+                "padding_tablet" => $razao * 180,
+                "padding_mobile" => $razao * 320
+            ) );
 
             return $config;
         }
@@ -581,8 +639,8 @@
                 $post,
                 $this->metaboxDesktopBackgroundImageFieldName, 
                 'Imagem de fundo desktop', 
-                'Define a imagem que será exibida no fundo do slider. Recomendamos que a imagem tenha 1920 pixels de 
-                largura por 800 pixels de altura. Além disso, para evitar que o carregamento seja prejudicado, sugerimos 
+                'Define a imagem que será exibida no fundo do slider. Recomendamos que a imagem tenha '.get_option( $this->optionImageWidth ).' pixels de 
+                largura por '.get_option( $this->optionImageHeight ).' pixels de altura. Além disso, para evitar que o carregamento seja prejudicado, sugerimos 
                 que a imagem tenha um tratamento prévio para reduzir o tamanho.', 
                 'image',
                 $free,
@@ -595,8 +653,7 @@
                 $this->metaboxMobileBackgroundImageFieldName, 
                 'Imagem de fundo mobile', 
                 'Define a imagem de fundo em dispositivos móveis. Este campo é opcional. Caso não seja preenchido, a 
-                imagem de fundo padrão será ajustada para exibição em celulares. Recomendamos que a imagem tenha 600 pixels 
-                de largura por 800 pixels de altura.', 
+                imagem de fundo padrão será ajustada para exibição em celulares.', 
                 'image',
                 $free,
                 $position,
@@ -642,7 +699,33 @@
                 wp_enqueue_script( 'slick-js', 'http://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js', array( 'jquery' ), false, true );
                 wp_enqueue_style( 'slick-css','http://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css', false, "1.0.0", 'all' );
             }
-            
+
+            add_action('wp_head', function() {
+
+                $options = $this->getOptions();
+
+                echo '
+                    <style>
+                        .main-simpleslider-container .slide {
+                            padding-top: '.$options['padding_desktop'].'vw;
+                        }
+
+                        @media screen and (max-width: 992px) {
+                            .main-simpleslider-container .slide {
+                                padding-top: '.$options['padding_tablet'].'vw;
+                            }
+                        }
+
+                        @media screen and (max-width: 575px) {
+                            .main-simpleslider-container .slide {
+                                padding-top: '.$options['padding_mobile'].'vw;
+                            }
+                        }
+
+                    </style>
+                ';
+            });
+
             wp_enqueue_script( 'user-simpleslider-js', WORDPRESS_SIMPLESLIDER_URL . 'assets/scripts/user-simpleslider-script-min.js', array( 'slick-js', 'jquery' ), "1.0.0", true );            
             wp_enqueue_style( 'user-simpleslider-css', WORDPRESS_SIMPLESLIDER_URL . 'assets/styles/user-simpleslider-style.css', array(), "1.0.0", 'all' );
         }
@@ -706,7 +789,6 @@
                     } else {
                         echo "Nenhum slide encontrado no slider selecionado.";
                     }
-                    
 
                 } else {
                     echo "Slider não encontrado.";
