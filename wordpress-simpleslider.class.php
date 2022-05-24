@@ -363,7 +363,7 @@
             );
         }
         function saveFieldValues( $post_ID, $post ) {
-            if ($post->post_type == WORDPRESS_SIMPLESLIDER_POST_TYPE) {
+            if ($post->post_type == WORDPRESS_SIMPLESLIDER_POST_TYPE  && $post->post_status != 'auto-draft') {
                                 
                 update_post_meta( $post_ID, $this->metaboxMainTextFieldName, $_POST[ $this->metaboxMainTextFieldName ] );
                 update_post_meta( $post_ID, $this->metaboxSecondaryTextFieldName, $_POST[ $this->metaboxSecondaryTextFieldName ] );
