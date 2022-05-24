@@ -22,6 +22,7 @@
 
         private $optionLoadSlick = "simpleslider_load_slick";
         private $optionButtonsClass = "simpleslider_buttons_class";
+        private $optionActiveDotColor = "simpleslider_active_dot_color";
 
         function __construct() {            
             register_activation_hook( WORDPRESS_SIMPLESLIDER_FILE, array( &$this, 'activate' ) );
@@ -110,6 +111,7 @@
         }
         function setDefaultConfig() {
             update_option( $this->optionLoadSlick, 'true' );
+            update_option( $this->optionActiveDotColor, '#FFFFFF' );
         }
         function adminEnqueueScripts() {
             // js
@@ -281,6 +283,18 @@
                 )
             );
 
+            register_setting( $this->configGroupSlug, $this->optionActiveDotColor );
+            add_settings_field(
+                $this->optionActiveDotColor,
+                "Cor ponto para o slide ativo",
+                array($this, 'showOptionActiveDotColor'),
+                $this->configPageSlug,
+                $this->configSectionSlug,       
+                array( 
+                    'label_for' => $this->optionActiveDotColor
+                )
+            );  
+
             register_setting( $this->configGroupSlug, $this->optionButtonsClass );
             add_settings_field(
                 $this->optionButtonsClass,
@@ -291,10 +305,15 @@
                 array( 
                     'label_for' => $this->optionButtonsClass
                 )
-            );            
+            );    
+            
+              
         }
         function showOptionLoadSlickCheckbox() {
             $this->showInputTypeCheckbox( $this->optionLoadSlick, get_option( $this->optionLoadSlick ), false );
+        }
+        function showOptionActiveDotColor() {
+            $this->showInputTypeColor( $this->optionActiveDotColor, get_option( $this->optionActiveDotColor ), false );
         }
         function showOptionButtonsClass() {
             $this->showInputTypeText( $this->optionButtonsClass, get_option( $this->optionButtonsClass ), false );
@@ -302,7 +321,8 @@
         function getOptions() {
             $config = array(
                 "load_slick" => get_option( $this->optionLoadSlick ),
-                "buttons_class" => get_option( $this->optionButtonsClass )
+                "buttons_class" => get_option( $this->optionButtonsClass ),
+                "slick_active_dot" => get_option( $this->optionActiveDotColor )
             );
 
             return $config;
@@ -626,9 +646,15 @@
             wp_enqueue_script( 'user-simpleslider-js', WORDPRESS_SIMPLESLIDER_URL . 'assets/scripts/user-simpleslider-script-min.js', array( 'slick-js', 'jquery' ), "1.0.0", true );            
             wp_enqueue_style( 'user-simpleslider-css', WORDPRESS_SIMPLESLIDER_URL . 'assets/styles/user-simpleslider-style.css', array(), "1.0.0", 'all' );
         }
-        function slidersDinamicCSS( $slides ) {
+        function slidersDinamicCSS( $slides, $config ) {
 
-                echo '<style id="simpleslider-slides-style">';
+                echo '<style id="simpleslider-slides-style">
+
+                    .slick-active button {
+                        background:'.$config['slick_active_dot'].';
+                    }
+                    
+                    ';                    
 
                     foreach ( $slides as $key => $slide ) {
                         echo '.main-simpleslider-container .slide-'.$key.' .simpleslider-title, .main-simpleslider-container .slide-'.$key.' .simpleslider-text {
@@ -668,7 +694,7 @@
                     if ( $slides ) {
                         
 
-                        $this->slidersDinamicCSS( $slides );
+                        $this->slidersDinamicCSS( $slides, $config );
 
                         set_query_var( 'slides', $slides ); 
                         set_query_var( 'config', $config ); 
