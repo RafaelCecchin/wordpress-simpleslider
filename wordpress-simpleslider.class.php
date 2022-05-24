@@ -795,12 +795,12 @@
 
             foreach ( $slides as $key => $slide ) {
                 $style .= '.main-simpleslider-container .slide-'.$key.' .simpleslider-title, .main-simpleslider-container .slide-'.$key.' .simpleslider-text {
-                        color: '.$slide['text_color'].';
+                        '.( $slide['text_color'] ? 'color: '.$slide['text_color'].';' : '' ).'
                     }
 
                     .main-simpleslider-container .slide-'.$key.' .simpleslider-button {
-                        color: '.$slide['button_text_color'].';
-                        background-color: '.$slide['button_color'].';
+                        '.( $slide['button_text_color'] ? 'color: '.$slide['button_text_color'].';' : '' ).'
+                        '.( $slide['button_color'] ? 'background-color: '.$slide['button_color'].';' : '' ).'
                     } 
                     
                     ';
