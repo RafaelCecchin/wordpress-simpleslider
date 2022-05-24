@@ -8,6 +8,7 @@
         private $metaboxSecondaryTextFieldName = "simpleslider_secondary_text_field";
         private $metaboxButtonTextFieldName = "simpleslider_button_text_field";
         private $metaboxButtonLinkFieldName = "simpleslider_button_link_field";
+        private $metaboxButtonTextColor = "simpleslider_button_text_color_field";
         private $metaboxDesktopBackgroundImageFieldName = "simpleslider_desktop_background_image_field";
         private $metaboxMobileBackgroundImageFieldName = "simpleslider_mobile_background_image_field";
         private $metaboxTemplate = "simpleslider_template_field";
@@ -36,7 +37,7 @@
             add_action( 'manage_'.WORDPRESS_SIMPLESLIDER_POST_TYPE.'_posts_custom_column' , array( &$this, 'showShortcodeInColumn' ), 10, 2 );
 
             add_shortcode( 'simpleslider', array( &$this, 'showSliders' ) );
-        }      
+        }
 
         function getSliderMeta( $post_id ) {            
             $dados = array(
@@ -47,6 +48,7 @@
                 'text_color'   => get_post_meta( $post_id, $this->metaboxTextColor, true ),
                 'text_align'   => get_post_meta( $post_id, $this->metaboxTemplate, true ),
                 'button_color'   => get_post_meta( $post_id, $this->metaboxButtonColor, true ),
+                'button_text_color'   => get_post_meta( $post_id, $this->metaboxButtonTextColor, true ),
                 'desktop_background_image' => get_post_meta( $post_id, $this->metaboxDesktopBackgroundImageFieldName, true ),
                 'mobile_background_image' => get_post_meta( $post_id, $this->metaboxMobileBackgroundImageFieldName, true )
             );
@@ -346,6 +348,7 @@
                 update_post_meta( $post_ID, $this->metaboxSecondaryTextFieldName, $_POST[ $this->metaboxSecondaryTextFieldName ] );
                 update_post_meta( $post_ID, $this->metaboxButtonTextFieldName, $_POST[ $this->metaboxButtonTextFieldName ] );
                 update_post_meta( $post_ID, $this->metaboxButtonLinkFieldName, $_POST[ $this->metaboxButtonLinkFieldName ] );
+                update_post_meta( $post_ID, $this->metaboxButtonTextColor, $_POST[ $this->metaboxButtonTextColor ] );
                 update_post_meta( $post_ID, $this->metaboxTextColor, $_POST[ $this->metaboxTextColor ] );
                 update_post_meta( $post_ID, $this->metaboxButtonColor, $_POST[ $this->metaboxButtonColor ] );
                 update_post_meta( $post_ID, $this->metaboxDesktopBackgroundImageFieldName, $_POST[ $this->metaboxDesktopBackgroundImageFieldName ] );
@@ -528,6 +531,33 @@
 
             $this->showPostField( 
                 $post,
+                $this->metaboxButtonTextColor, 
+                'Cor do texto do botão', 
+                'Hexadecimal rerefente a cor do texto do botão.', 
+                'color',
+                $free,
+                $position,
+                false
+            );
+
+            $this->showPostField( 
+                $post,
+                $this->metaboxTemplate, 
+                'Template', 
+                'Escolha o template que combina com seu slide.', 
+                'radio',
+                $free,
+                $position,
+                false,
+                array(
+                    'left' => "Texto ajustado a esquerda",
+                    'center' => "Texto ajustado ao centro",
+                    'right' => "Texto ajustado a direita"
+                )
+            );  
+
+            $this->showPostField( 
+                $post,
                 $this->metaboxDesktopBackgroundImageFieldName, 
                 'Imagem de fundo desktop', 
                 'Define a imagem que será exibida no fundo do slider. Recomendamos que a imagem tenha 1920 pixels de 
@@ -551,22 +581,6 @@
                 $position,
                 false
             );       
-                 
-            $this->showPostField( 
-                $post,
-                $this->metaboxTemplate, 
-                'Template', 
-                'Escolha o template que combina com seu slide.', 
-                'radio',
-                $free,
-                $position,
-                false,
-                array(
-                    'left' => "Texto ajustado a esquerda",
-                    'center' => "Texto ajustado ao centro",
-                    'right' => "Texto ajustado a direita"
-                )
-            );  
             
         }
         function showPostField( $post, $optionName, $optionTitle, $optionDesc = false, $type = 'text', $free, $position, $required = false, $options = array() ) {
