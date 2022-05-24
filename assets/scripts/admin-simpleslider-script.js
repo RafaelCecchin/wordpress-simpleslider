@@ -228,3 +228,24 @@ function moveTop( event ) {
         pai.insertBefore(auxCurrent, prev);   
     }
 }
+
+
+/* Campo de cor */
+
+const colorTexts = [...document.querySelectorAll(`#simpleslider_metabox .aux-color`)];
+
+if (colorTexts.length) {
+    
+    colorTexts.forEach(colorText => {
+
+        colorText.addEventListener('keyup', updateColor );
+
+    });
+}
+
+function updateColor() {
+    let current = this;
+    let prev = current.previousElementSibling;
+
+    prev.value = current.value;
+}

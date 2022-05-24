@@ -170,13 +170,16 @@
         function showInputTypeColor( $optionName, $value, $required, $array = false, $position = false ) {
 
             $pos = $array ? '['.( is_numeric( $position ) ? $position : '' ).']' : '';
+            $val = esc_attr( $array && !empty($value) ? $value[ $position ] : $value );
 
             printf(
-                '<input type="color" id="wp-simpleslider-option-field-%s" name="%s%s" value="%s" %s/>',
-                $optionName,                 
+                '<input type="color" id="wp-simpleslider-option-field-%s" value="%s" disabled/><input type="text" color-target="wp-simpleslider-option-field-%s" class="aux-color" name="%s%s" value="%s" %s/>',
+                $optionName,
+                $val,   
+                $optionName,              
                 $optionName, 
                 $pos,
-                esc_attr( $array && !empty($value) ? $value[ $position ] : $value ),
+                $val,
                 $required ? 'required' : ''
             );
 
@@ -275,7 +278,7 @@
             $this->createOptions();
         }
         function showGeneralConfigPage() {
-            echo '<div class="wrap recaptchav3-configuracoes">
+            echo '<div id="simpleslider_metabox" class="wrap simpleslider-configuracoes">
                     <img width="150" height="150" class="dashboard-image" src="'.WORDPRESS_SIMPLESLIDER_URL.'assets/images/admin-dashboard.svg" alt="Menu administrativo"/>
 
                     <h1>Simpleslider</h1>
