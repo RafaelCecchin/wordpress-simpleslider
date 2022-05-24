@@ -20,7 +20,7 @@
         private $configGroupSlug = "simpleslider_config_group";
 
         private $optionLoadSlick = "simpleslider_load_slick";
-
+        private $optionButtonsClass = "simpleslider_buttons_class";
 
         function __construct() {            
             register_activation_hook( WORDPRESS_SIMPLESLIDER_FILE, array( &$this, 'activate' ) );
@@ -270,16 +270,39 @@
             add_settings_field(
                 $this->optionLoadSlick,
                 "Carregar slick.js",
-                array($this, 'showLoadSlickCheckbox'),
+                array($this, 'showOptionLoadSlickCheckbox'),
                 $this->configPageSlug,
                 $this->configSectionSlug,       
                 array( 
                     'label_for' => $this->optionLoadSlick
                 )
             );
+
+            register_setting( $this->configGroupSlug, $this->optionButtonsClass );
+            add_settings_field(
+                $this->optionButtonsClass,
+                "Classe para todos os botões",
+                array($this, 'showOptionButtonsClass'),
+                $this->configPageSlug,
+                $this->configSectionSlug,       
+                array( 
+                    'label_for' => $this->optionButtonsClass
+                )
+            );            
         }
-        function showLoadSlickCheckbox() {
+        function showOptionLoadSlickCheckbox() {
             $this->showInputTypeCheckbox( $this->optionLoadSlick, get_option( $this->optionLoadSlick ), false );
+        }
+        function showOptionButtonsClass() {
+            $this->showInputTypeText( $this->optionButtonsClass, get_option( $this->optionButtonsClass ), false );
+        }
+        function getOptions() {
+            $config = array(
+                "load_slick" => get_option( $this->optionLoadSlick ),
+                "buttons_class" => get_option( $this->optionButtonsClass )
+            );
+
+            return $config;
         }
 
         // Post type config
@@ -605,10 +628,13 @@
                 if ( $query->have_posts() ) {  
                     
                     $slides = $this->getSliderMeta( $id );
+                    $config = $this->getOptions();
 
                     if ($slides) {
 
                         set_query_var( 'slides', $slides ); 
+                        set_query_var( 'config', $config ); 
+
                         include(WORDPRESS_SIMPLESLIDER_PLUGIN_DIR."views/slider.php");
                         
                     } else {

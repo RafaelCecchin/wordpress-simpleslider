@@ -1,4 +1,7 @@
-<?php extract( get_query_var( 'slides' ) );  ?>
+<?php 
+    extract( get_query_var( 'slides' ) );
+    extract( get_query_var( 'config' ) );
+?>
 
 <div class="main-simpleslider-container">
 
@@ -26,7 +29,7 @@
                         </p>
                     <?php endif; ?>
                     <?php if ($slide['button_text']): ?>
-                        <a href="<?php echo $slide['button_link']; ?>" class="simpleslider-button" style="color: <?php echo $slide['text_color']; ?>; background-color: <?php echo $slide['button_color']; ?>;">
+                        <a href="<?php echo $slide['button_link']; ?>" class="simpleslider-button <?php echo $config['buttons_class'] ?>" style="color: <?php echo $slide['text_color']; ?>; background-color: <?php echo $slide['button_color']; ?>;">
                             <?php echo $slide['button_text']; ?>
                         </a>
                     <?php endif; ?>
