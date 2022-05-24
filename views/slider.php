@@ -1,9 +1,11 @@
 <?php 
     extract( get_query_var( 'slides' ) );
     extract( get_query_var( 'config' ) );
+    extract( get_query_var( 'style' ) );
 ?>
 
 <div class="main-simpleslider-container">
+    <?php echo $style; ?>
 
     <button class="prevArrow">
         <span class="only-semantics">Voltar slide</span>

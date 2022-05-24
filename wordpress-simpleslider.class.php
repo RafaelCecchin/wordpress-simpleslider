@@ -648,28 +648,30 @@
         }
         function slidersDinamicCSS( $slides, $config ) {
 
-                echo '<style id="simpleslider-slides-style">
+            $style = '<style id="simpleslider-slides-style">
 
-                    .slick-active button {
-                        background:'.$config['slick_active_dot'].';
+            .slick-active button {
+                background:'.$config['slick_active_dot'].';
+            }
+            
+            ';                    
+
+            foreach ( $slides as $key => $slide ) {
+                $style .= '.main-simpleslider-container .slide-'.$key.' .simpleslider-title, .main-simpleslider-container .slide-'.$key.' .simpleslider-text {
+                        color: '.$slide['text_color'].';
                     }
+
+                    .main-simpleslider-container .slide-'.$key.' .simpleslider-button {
+                        color: '.$slide['button_text_color'].';
+                        background-color: '.$slide['button_color'].';
+                    } 
                     
-                    ';                    
+                    ';
+            }
 
-                    foreach ( $slides as $key => $slide ) {
-                        echo '.main-simpleslider-container .slide-'.$key.' .simpleslider-title, .main-simpleslider-container .slide-'.$key.' .simpleslider-text {
-                                color: '.$slide['text_color'].';
-                            }
+            $style .= '</style>';
 
-                            .main-simpleslider-container .slide-'.$key.' .simpleslider-button {
-                                color: '.$slide['button_text_color'].';
-                                background-color: '.$slide['button_color'].';
-                            } 
-                            
-                            ';
-                    }
-
-                echo '</style>';
+            return $style;
             
         }
         function showSliders( $atts ) {
@@ -693,11 +695,11 @@
 
                     if ( $slides ) {
                         
-
-                        $this->slidersDinamicCSS( $slides, $config );
+                        $style = [ "style" => $this->slidersDinamicCSS( $slides, $config ) ];
 
                         set_query_var( 'slides', $slides ); 
                         set_query_var( 'config', $config ); 
+                        set_query_var( 'style', $style ); 
 
                         include(WORDPRESS_SIMPLESLIDER_PLUGIN_DIR."views/slider.php");
                         
