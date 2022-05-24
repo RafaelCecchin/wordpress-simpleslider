@@ -25,6 +25,7 @@
         private $optionActiveDotColor = "simpleslider_active_dot_color";
         private $optionImageWidth = "simpleslider_image_width";
         private $optionImageHeight = "simpleslider_image_height";
+        private $optionBlackGradient = "simpleslider_black_gradient";
 
         function __construct() {            
             register_activation_hook( WORDPRESS_SIMPLESLIDER_FILE, array( &$this, 'activate' ) );
@@ -299,7 +300,19 @@
                 array( 
                     'label_for' => $this->optionLoadSlick
                 )
-            );
+            );  
+
+            register_setting( $this->configGroupSlug, $this->optionBlackGradient );
+            add_settings_field(
+                $this->optionBlackGradient,
+                "Gradiente preto",
+                array($this, 'showOptionBlackGradient'),
+                $this->configPageSlug,
+                $this->configSectionSlug,       
+                array( 
+                    'label_for' => $this->optionBlackGradient
+                )
+            ); 
 
             register_setting( $this->configGroupSlug, $this->optionActiveDotColor );
             add_settings_field(
@@ -323,7 +336,7 @@
                 array( 
                     'label_for' => $this->optionButtonsClass
                 )
-            );    
+            );  
 
             register_setting( $this->configGroupSlug, $this->optionImageWidth );
             add_settings_field(
@@ -366,13 +379,17 @@
         function showOptionImageHeight() {
             $this->showInputTypeNumber( $this->optionImageHeight, get_option( $this->optionImageHeight ), true );
         }
+        function showOptionBlackGradient() {
+            $this->showInputTypeCheckbox( $this->optionBlackGradient, get_option( $this->optionBlackGradient ), false );
+        }
         function getOptions() {
             $config = array(
                 "load_slick" => get_option( $this->optionLoadSlick ),
                 "buttons_class" => get_option( $this->optionButtonsClass ),
                 "slick_active_dot" => get_option( $this->optionActiveDotColor ),
                 "image_width" => get_option( $this->optionImageWidth ),
-                "image_height" => get_option( $this->optionImageHeight )
+                "image_height" => get_option( $this->optionImageHeight ),
+                "black_gradient" => get_option( $this->optionBlackGradient )
             );
             
             /* Padding */
@@ -720,9 +737,30 @@
                             .main-simpleslider-container .slide {
                                 padding-top: '.$options['padding_mobile'].'vw;
                             }
+                        }';
+
+                        if ($options['black_gradient']) {
+                            echo '
+                                .main-simpleslider-container .slide:before {
+                                    background: linear-gradient(to right, rgba(0,0,0, 0.85), transparent);
+                                }
+
+                                @media screen and (max-width: 575px) {
+                                    .main-simpleslider-container .slide:before {
+                                        background: linear-gradient(to bottom, transparent, black) !important;
+                                    }
+                                }
+                            ';
+                        } else {
+                            echo '
+                                .main-simpleslider-container .slide:before {
+                                    display: none !important;
+                                }
+                            ';
                         }
 
-                    </style>
+
+                echo '</style>
                 ';
             });
 

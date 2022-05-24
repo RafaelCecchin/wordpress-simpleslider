@@ -74,15 +74,14 @@
 				left: 0;
 				width: 100%;
 				height: 100%;
-				background: linear-gradient(to right, transparentize(black, 0.15), transparent);
+				//background: linear-gradient(to right, transparentize(black, 0.15), transparent);
 				z-index: 1;
-				
 				transition: opacity 1s ease-out;
 				opacity: 0;
 				
 				@media screen and (max-width: $sm) {
 					height: 100%;
-					background: linear-gradient(to bottom, transparent, black) !important;
+					//background: linear-gradient(to bottom, transparent, black) !important;
 				}
 			}
 			
