@@ -13,6 +13,7 @@
         private $metaboxMobileBackgroundImageFieldName = "simpleslider_mobile_background_image_field";
         private $metaboxTemplate = "simpleslider_template_field";
         private $metaboxEnableSVG = "simpleslider_svg_field";
+        private $metaboxSVGPosition = "simpleslider_svg_position";
         private $metaboxButtonClass = "simpleslider_button_class";
 
         private $metaboxTextColor = "simpleslider_text_color";
@@ -59,7 +60,8 @@
                 'button_text_color'         => get_post_meta( $post_id, $this->metaboxButtonTextColor, true ),
                 'desktop_background_image'  => get_post_meta( $post_id, $this->metaboxDesktopBackgroundImageFieldName, true ),
                 'mobile_background_image'   => get_post_meta( $post_id, $this->metaboxMobileBackgroundImageFieldName, true ),
-                'svg'                       => get_post_meta( $post_id, $this->metaboxEnableSVG, true )
+                'svg'                       => get_post_meta( $post_id, $this->metaboxEnableSVG, true ),
+                'svg_position'              => get_post_meta( $post_id, $this->metaboxSVGPosition, true ),
             );
 
             $indexes = [];
@@ -489,7 +491,8 @@
                 update_post_meta( $post_ID, $this->metaboxMobileBackgroundImageFieldName, $_POST[ $this->metaboxMobileBackgroundImageFieldName ] );
                 update_post_meta( $post_ID, $this->metaboxTemplate, $_POST[ $this->metaboxTemplate ] );
                 update_post_meta( $post_ID, $this->metaboxButtonClass, $_POST[ $this->metaboxButtonClass ] );                
-                update_post_meta( $post_ID, $this->metaboxEnableSVG, $_POST[ $this->metaboxEnableSVG ] );      
+                update_post_meta( $post_ID, $this->metaboxEnableSVG, $_POST[ $this->metaboxEnableSVG ] );
+                update_post_meta( $post_ID, $this->metaboxSVGPosition, $_POST[ $this->metaboxSVGPosition ] );      
 
             }
         }
@@ -724,6 +727,21 @@
                     $position,
                     false
                 );
+
+                $this->showPostField( 
+                    $post,
+                    $this->metaboxSVGPosition, 
+                    'Posição do SVG', 
+                    'Escolha a posição do SVG.', 
+                    'radio',
+                    $free,
+                    $position,
+                    false,
+                    array(
+                        'svg-left' => "SVG ajustado a esquerda do botão",
+                        'svg-right' => "SVG ajustado a direita do botão"
+                    )
+                ); 
             }  
             
             $this->showPostField( 

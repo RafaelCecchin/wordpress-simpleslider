@@ -190,6 +190,10 @@
 				display: flex;
 				align-items: center;
 				gap: 0.625rem;
+
+				&.svg-right {
+					flex-direction: row-reverse;
+				}
                 
                 @media screen and (max-width: $sm) {
                     transform: translateY(2rem);
