@@ -13,8 +13,8 @@
         private $metaboxMobileBackgroundImageFieldName = "simpleslider_mobile_background_image_field";
         private $metaboxTemplate = "simpleslider_template_field";
         private $metaboxEnableSVG = "simpleslider_svg_field";
-        private $metaboxSVGPosition = "simpleslider_svg_position";
-        private $metaboxButtonClass = "simpleslider_button_class";
+        private $metaboxSVGPosition = "simpleslider_svg_position_field";
+        private $metaboxButtonClass = "simpleslider_button_class_field";
 
         private $metaboxTextColor = "simpleslider_text_color";
         private $metaboxButtonColor = "simpleslider_btn_color";
