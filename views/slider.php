@@ -32,7 +32,8 @@
                     <?php endif; ?>
                     <?php if ($slide['button_text']): ?>
                         <a href="<?php echo $slide['button_link']; ?>" class="simpleslider-button <?php echo $config['buttons_class'] ?> <?php echo $slide['button_class'] ?>">
-                            <?php echo $slide['button_text']; ?>
+                            <?php echo $config['enable_svg'] ? $slide['svg'] : ''; ?>
+                            <span><?php echo $slide['button_text']; ?></span>
                         </a>
                     <?php endif; ?>
                 </div>

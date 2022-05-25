@@ -12,6 +12,7 @@
         private $metaboxDesktopBackgroundImageFieldName = "simpleslider_desktop_background_image_field";
         private $metaboxMobileBackgroundImageFieldName = "simpleslider_mobile_background_image_field";
         private $metaboxTemplate = "simpleslider_template_field";
+        private $metaboxEnableSVG = "simpleslider_svg_field";
         private $metaboxButtonClass = "simpleslider_button_class";
 
         private $metaboxTextColor = "simpleslider_text_color";
@@ -27,6 +28,7 @@
         private $optionImageWidth = "simpleslider_image_width";
         private $optionImageHeight = "simpleslider_image_height";
         private $optionBlackGradient = "simpleslider_black_gradient";
+        private $optionEnableSVG = "simpleslider_enable_svg";
 
         function __construct() {            
             register_activation_hook( WORDPRESS_SIMPLESLIDER_FILE, array( &$this, 'activate' ) );
@@ -56,7 +58,8 @@
                 'button_color'              => get_post_meta( $post_id, $this->metaboxButtonColor, true ),
                 'button_text_color'         => get_post_meta( $post_id, $this->metaboxButtonTextColor, true ),
                 'desktop_background_image'  => get_post_meta( $post_id, $this->metaboxDesktopBackgroundImageFieldName, true ),
-                'mobile_background_image'   => get_post_meta( $post_id, $this->metaboxMobileBackgroundImageFieldName, true )
+                'mobile_background_image'   => get_post_meta( $post_id, $this->metaboxMobileBackgroundImageFieldName, true ),
+                'svg'                       => get_post_meta( $post_id, $this->metaboxEnableSVG, true )
             );
 
             $indexes = [];
@@ -150,6 +153,20 @@
                 $pos,
                 esc_attr( $array && !empty($value) ? $value[ $position ] : $value ),
                 $required ? 'required' : ''
+            );
+
+        }
+        function showInputTypeTextarea( $optionName, $value, $required, $array = false, $position = false ) {
+
+            $pos = $array ? '['.( is_numeric( $position ) ? $position : '' ).']' : '';
+
+            printf(
+                '<textarea id="wp-simpleslider-option-field-%s" name="%s%s" %s/>%s</textarea>',
+                $optionName,                 
+                $optionName,
+                $pos,
+                $required ? 'required' : '',
+                esc_attr( $array && !empty($value) ? $value[ $position ] : $value )
             );
 
         }
@@ -319,6 +336,18 @@
                 )
             ); 
 
+            register_setting( $this->configGroupSlug, $this->optionEnableSVG );
+            add_settings_field(
+                $this->optionEnableSVG,
+                "Habilitar campo de SVG",
+                array($this, 'showOptionEnableSVG'),
+                $this->configPageSlug,
+                $this->configSectionSlug,       
+                array( 
+                    'label_for' => $this->optionEnableSVG
+                )
+            );
+
             register_setting( $this->configGroupSlug, $this->optionActiveDotColor );
             add_settings_field(
                 $this->optionActiveDotColor,
@@ -387,6 +416,9 @@
         function showOptionBlackGradient() {
             $this->showInputTypeCheckbox( $this->optionBlackGradient, get_option( $this->optionBlackGradient ), false );
         }
+        function showOptionEnableSVG() {
+            $this->showInputTypeCheckbox( $this->optionEnableSVG, get_option( $this->optionEnableSVG ), false );
+        }
         function getOptions() {
             $config = array(
                 "load_slick" => get_option( $this->optionLoadSlick ),
@@ -394,7 +426,8 @@
                 "slick_active_dot" => get_option( $this->optionActiveDotColor ),
                 "image_width" => get_option( $this->optionImageWidth ),
                 "image_height" => get_option( $this->optionImageHeight ),
-                "black_gradient" => get_option( $this->optionBlackGradient )
+                "black_gradient" => get_option( $this->optionBlackGradient ),
+                "enable_svg" => get_option( $this->optionEnableSVG )
             );
             
             /* Padding */
@@ -456,7 +489,8 @@
                 update_post_meta( $post_ID, $this->metaboxMobileBackgroundImageFieldName, $_POST[ $this->metaboxMobileBackgroundImageFieldName ] );
                 update_post_meta( $post_ID, $this->metaboxTemplate, $_POST[ $this->metaboxTemplate ] );
                 update_post_meta( $post_ID, $this->metaboxButtonClass, $_POST[ $this->metaboxButtonClass ] );                
-                
+                update_post_meta( $post_ID, $this->metaboxEnableSVG, $_POST[ $this->metaboxEnableSVG ] );      
+
             }
         }
         function createMetabox() {
@@ -488,6 +522,7 @@
         function createPostLines( $post ) {  
             
             $slides = $this->getSliderMeta( $post->ID );
+            
 
             if (!empty($slides)) {
                 foreach ($slides as $key => $slide) {
@@ -676,7 +711,20 @@
                 $free,
                 $position,
                 false
-            );       
+            );   
+            
+            if ( get_option( $this->optionEnableSVG ) ) {
+                $this->showPostField( 
+                    $post,
+                    $this->metaboxEnableSVG, 
+                    'SVG do botão', 
+                    'Cole no campo abaixo o SVG.', 
+                    'textarea',
+                    $free,
+                    $position,
+                    false
+                );
+            }  
             
             $this->showPostField( 
                 $post,
@@ -693,6 +741,7 @@
                     'right' => "Texto ajustado a direita"
                 )
             ); 
+                      
         }
         function showPostField( $post, $optionName, $optionTitle, $optionDesc = false, $type = 'text', $free, $position, $required = false, $options = array() ) {
 
@@ -706,6 +755,10 @@
                     switch($type) {
                         case 'text':
                             $this->showInputTypeText( $optionName, $value, $required, true, $position );
+                            break;
+
+                        case 'textarea':
+                            $this->showInputTypeTextarea( $optionName, $value, $required, true, $position );
                             break;
 
                         case 'image':
@@ -799,8 +852,15 @@
                     }
 
                     .main-simpleslider-container .slide-'.$key.' .simpleslider-button {
-                        '.( $slide['button_text_color'] ? 'color: '.$slide['button_text_color'].';' : '' ).'
                         '.( $slide['button_color'] ? 'background-color: '.$slide['button_color'].';' : '' ).'
+                    }
+
+                    .main-simpleslider-container .slide-'.$key.' .simpleslider-button span {
+                        '.( $slide['button_text_color'] ? 'color: '.$slide['button_text_color'].';' : '' ).'
+                    } 
+
+                    .main-simpleslider-container .slide-'.$key.' .simpleslider-button svg {
+                        '.( $slide['button_text_color'] ? 'fill: '.$slide['button_text_color'].';' : '' ).'
                     } 
                     
                     ';
