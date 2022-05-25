@@ -184,7 +184,7 @@
             .simpleslider-button {
                 transform: translateX(-2rem);
                 opacity: 0;
-                transition: transform 0.75s ease-out 0.9s, opacity 0.75s ease-out 0.9s;
+                transition: transform 0.75s ease-out .9s, opacity 0.75s ease-out .9s, background-color ease-out .15s, box-shadow ease-out .15s;
                 width: fit-content;
                 padding: 1rem 1.5rem;
                 
