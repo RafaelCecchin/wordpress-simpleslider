@@ -97,7 +97,16 @@
 				height: 100%;
 				object-fit: cover;
 			}
-			
+
+			picture {
+				position: absolute;
+			    height: 100%;
+			    width: 100%;
+			    top: 0;
+			    left: 0;
+				z-index: 1;
+			}
+
 			.container {
 		    position: absolute;
 		    z-index: 2;

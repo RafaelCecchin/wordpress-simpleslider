@@ -89,22 +89,20 @@
             $dekstop_meta = wp_get_attachment_metadata( $desktop_id );
             $mobile_meta = wp_get_attachment_metadata( $mobile_id );
             
-            $slider .= '
-                <picture>
-                    <img 
-                        src="' . wp_get_attachment_url( $desktop_id ) . '"
-                        width="' . $dekstop_meta["width"] . '"
-                        height="' . $dekstop_meta["height"] . '"
-                        alt=""
-                    >';
-                    
             if ($mobile_meta) {
-                $slider .= '
+            $slider = '
+                <picture>
                     <source 
                         srcset="' . wp_get_attachment_url( $mobile_id ) . '"
                         width="' . $mobile_meta["width"] . '"
                         height="' . $mobile_meta["height"] . '"
                         media="(max-width: 767px)"
+                        alt=""
+                    >
+                    <img 
+                        src="' . wp_get_attachment_url( $desktop_id ) . '"
+                        width="' . $dekstop_meta["width"] . '"
+                        height="' . $dekstop_meta["height"] . '"
                         alt=""
                     >
                 ';
