@@ -155,7 +155,7 @@
 		    p {
 		    	width: max-content;
 		    	max-width: 50%;
-					font-size: 1.5rem;
+				font-size: 1.5rem;
 		    	line-height: 1.25;
 		    	
 		    	transform: translateX(-2rem);
@@ -193,7 +193,7 @@
                 }
 
                 &:hover, &:active, &:focus {
-                    filter: brightness(1.1);
+                    //filter: brightness(1.1);
                 }
             }
 		    
