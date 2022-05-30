@@ -74,7 +74,7 @@
             $array = [];
             foreach ($indexes as $index) {
                 foreach ($dados as $key => $dado ) {
-                    $array[$index][$key] = $dado[$index];            
+                    $array[$index][$key] = isset( $dado[$index] ) ? $dado[$index] : "";          
                 }
 
                 $array[$index]['image_html'] = $this->getSlideHTML( $array[$index]['desktop_background_image'], $array[$index]['mobile_background_image'] );
