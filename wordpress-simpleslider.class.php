@@ -849,7 +849,7 @@
                 ';
             });
 
-            wp_enqueue_script( 'user-simpleslider-js', WORDPRESS_SIMPLESLIDER_URL . 'assets/scripts/user-simpleslider-script-min.js', array( 'slick-js', 'jquery' ), "1.0.0", true );            
+            wp_enqueue_script( 'user-simpleslider-js', WORDPRESS_SIMPLESLIDER_URL . 'assets/scripts/user-simpleslider-script-min.js', array( 'jquery' ), "1.0.0", true );            
             wp_enqueue_style( 'user-simpleslider-css', WORDPRESS_SIMPLESLIDER_URL . 'assets/styles/user-simpleslider-style.css', array(), "1.0.0", 'all' );
         }
         function slidersDinamicCSS( $slides, $config ) {

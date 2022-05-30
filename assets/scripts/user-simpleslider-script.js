@@ -1,12 +1,13 @@
 (function($) {
 
     const sliders = jQuery('.main-simpleslider-container .main-slider');
-
     
     if(sliders.length) {
 
         const settings= {
-            infinite: false,
+            infinite: true,
+            autoplay: true,
+            autoplaySpeed: 4000,
             slidesToShow: 1,
             slidesToScroll: 1,
             dots: true,
