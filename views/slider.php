@@ -24,7 +24,7 @@
             <div class="slide-<?= $slide['id']; ?> slide <?php echo $slide['text_align']; ?>">            
                 
                 <?php if (!$slide['button_text'] && $slide['button_link']): ?>
-                    <a href="#" class="slide-link"></a>
+                    <a href="#" class="slide-link" <?php echo $slide['new_tab'] ? 'target="_blank"' : '' ?>></a>
                 <?php endif; ?>
 
                 <?php echo $slide['image_html']; ?>                                    
@@ -40,7 +40,7 @@
                         </p>
                     <?php endif; ?>
                     <?php if ($slide['button_text']): ?>
-                        <a href="<?php echo $slide['button_link']; ?>" class="simpleslider-button <?php echo $config['buttons_class'] ?> <?php echo $slide['button_class'] ?> <?php echo $config['enable_svg'] ? $slide['svg_position'] : ''; ?>">
+                        <a href="<?php echo $slide['button_link']; ?>" <?php echo $slide['new_tab'] ? 'target="_blank"' : '' ?> class="simpleslider-button <?php echo $config['buttons_class'] ?> <?php echo $slide['button_class'] ?> <?php echo $config['enable_svg'] ? $slide['svg_position'] : ''; ?>">
                             <?php echo $config['enable_svg'] ? $slide['svg'] : ''; ?>
                             <span><?php echo $slide['button_text']; ?></span>
                         </a>

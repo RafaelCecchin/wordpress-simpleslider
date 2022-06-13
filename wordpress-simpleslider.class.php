@@ -8,6 +8,7 @@
         private $metaboxSecondaryTextFieldName = "simpleslider_secondary_text_field";
         private $metaboxButtonTextFieldName = "simpleslider_button_text_field";
         private $metaboxSliderLinkFieldName = "simpleslider_slider_link_field";
+        private $metaboxNewTabFieldName = "simpleslider_new_tab_field";
         private $metaboxButtonTextColor = "simpleslider_button_text_color_field";
         private $metaboxDesktopBackgroundImageFieldName = "simpleslider_desktop_background_image_field";
         private $metaboxMobileBackgroundImageFieldName = "simpleslider_mobile_background_image_field";
@@ -53,6 +54,7 @@
                 'secondary_text'            => get_post_meta( $post_id, $this->metaboxSecondaryTextFieldName, true ),
                 'button_text'               => get_post_meta( $post_id, $this->metaboxButtonTextFieldName, true ),
                 'slider_link'               => get_post_meta( $post_id, $this->metaboxSliderLinkFieldName, true ),
+                'new_tab'                   => get_post_meta( $post_id, $this->metaboxNewTabFieldName, true ),
                 'text_color'                => get_post_meta( $post_id, $this->metaboxTextColor, true ),
                 'button_class'              => get_post_meta( $post_id, $this->metaboxButtonClass, true ),
                 'text_align'                => get_post_meta( $post_id, $this->metaboxTemplate, true ),
@@ -482,6 +484,7 @@
                 update_post_meta( $post_ID, $this->metaboxSecondaryTextFieldName, $_POST[ $this->metaboxSecondaryTextFieldName ] );
                 update_post_meta( $post_ID, $this->metaboxButtonTextFieldName, $_POST[ $this->metaboxButtonTextFieldName ] );
                 update_post_meta( $post_ID, $this->metaboxSliderLinkFieldName, $_POST[ $this->metaboxSliderLinkFieldName ] );
+                update_post_meta( $post_ID, $this->metaboxNewTabFieldName, $_POST[ $this->metaboxNewTabFieldName ] );
                 update_post_meta( $post_ID, $this->metaboxButtonTextColor, $_POST[ $this->metaboxButtonTextColor ] );
                 update_post_meta( $post_ID, $this->metaboxTextColor, $_POST[ $this->metaboxTextColor ] );
                 update_post_meta( $post_ID, $this->metaboxButtonColor, $_POST[ $this->metaboxButtonColor ] );
@@ -647,6 +650,17 @@
 
             $this->showPostField( 
                 $post,
+                $this->metaboxNewTabFieldName, 
+                'Link em nova guia', 
+                'Ative essa opção para abrir o link do slider em nova guia.', 
+                'checkbox',
+                $free,
+                $position,
+                false
+            );
+
+            $this->showPostField( 
+                $post,
                 $this->metaboxTextColor, 
                 'Cor do texto', 
                 'Hexadecimal rerefente a cor do texto.', 
@@ -678,42 +692,6 @@
                 false
             );
 
-            $this->showPostField( 
-                $post,
-                $this->metaboxButtonClass, 
-                'Classe do botão', 
-                'Classe para estilizar o botão.', 
-                'text',
-                $free,
-                $position,
-                false
-            );
-           
-            $this->showPostField( 
-                $post,
-                $this->metaboxDesktopBackgroundImageFieldName, 
-                'Imagem de fundo desktop', 
-                'Define a imagem que será exibida no fundo do slider. Recomendamos que a imagem tenha '.get_option( $this->optionImageWidth ).' pixels de 
-                largura por '.get_option( $this->optionImageHeight ).' pixels de altura. Além disso, para evitar que o carregamento seja prejudicado, sugerimos 
-                que a imagem tenha um tratamento prévio para reduzir o tamanho.', 
-                'image',
-                $free,
-                $position,
-                true
-            );
-
-            $this->showPostField( 
-                $post,
-                $this->metaboxMobileBackgroundImageFieldName, 
-                'Imagem de fundo mobile', 
-                'Define a imagem de fundo em dispositivos móveis. Este campo é opcional. Caso não seja preenchido, a 
-                imagem de fundo padrão será ajustada para exibição em celulares.', 
-                'image',
-                $free,
-                $position,
-                false
-            );   
-            
             if ( get_option( $this->optionEnableSVG ) ) {
                 $this->showPostField( 
                     $post,
@@ -740,8 +718,19 @@
                         'svg-right' => "SVG ajustado a direita do botão"
                     )
                 ); 
-            }  
-            
+            }
+
+            $this->showPostField( 
+                $post,
+                $this->metaboxButtonClass, 
+                'Classe do botão', 
+                'Classe para estilizar o botão.', 
+                'text',
+                $free,
+                $position,
+                false
+            );
+
             $this->showPostField( 
                 $post,
                 $this->metaboxTemplate, 
@@ -757,7 +746,31 @@
                     'right' => "Texto ajustado a direita"
                 )
             ); 
-                      
+           
+            $this->showPostField( 
+                $post,
+                $this->metaboxDesktopBackgroundImageFieldName, 
+                'Imagem de fundo desktop', 
+                'Define a imagem que será exibida no fundo do slider. Recomendamos que a imagem tenha '.get_option( $this->optionImageWidth ).' pixels de 
+                largura por '.get_option( $this->optionImageHeight ).' pixels de altura. Além disso, para evitar que o carregamento seja prejudicado, sugerimos 
+                que a imagem tenha um tratamento prévio para reduzir o tamanho.', 
+                'image',
+                $free,
+                $position,
+                true
+            );
+
+            $this->showPostField( 
+                $post,
+                $this->metaboxMobileBackgroundImageFieldName, 
+                'Imagem de fundo mobile', 
+                'Define a imagem de fundo em dispositivos móveis. Este campo é opcional. Caso não seja preenchido, a 
+                imagem de fundo padrão será ajustada para exibição em celulares.', 
+                'image',
+                $free,
+                $position,
+                false
+            );                         
         }
         function showPostField( $post, $optionName, $optionTitle, $optionDesc = false, $type = 'text', $free, $position, $required = false, $options = array() ) {
 
@@ -787,6 +800,10 @@
 
                         case 'radio':
                             $this->showInputTypeRadio( $optionName, $value, $required, true, $position, $options );
+                            break;
+
+                        case 'checkbox':
+                            $this->showInputTypeCheckbox( $optionName, $value, $required, true, $position, $options );
                             break;
                     }
 
