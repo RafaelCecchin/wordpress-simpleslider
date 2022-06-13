@@ -480,20 +480,20 @@
         function saveFieldValues( $post_ID, $post ) {
             if ($post->post_type == WORDPRESS_SIMPLESLIDER_POST_TYPE  && $post->post_status != 'auto-draft') {
                                 
-                update_post_meta( $post_ID, $this->metaboxMainTextFieldName, $_POST[ $this->metaboxMainTextFieldName ] );
-                update_post_meta( $post_ID, $this->metaboxSecondaryTextFieldName, $_POST[ $this->metaboxSecondaryTextFieldName ] );
-                update_post_meta( $post_ID, $this->metaboxButtonTextFieldName, $_POST[ $this->metaboxButtonTextFieldName ] );
-                update_post_meta( $post_ID, $this->metaboxSliderLinkFieldName, $_POST[ $this->metaboxSliderLinkFieldName ] );
-                update_post_meta( $post_ID, $this->metaboxNewTabFieldName, $_POST[ $this->metaboxNewTabFieldName ] );
-                update_post_meta( $post_ID, $this->metaboxButtonTextColor, $_POST[ $this->metaboxButtonTextColor ] );
-                update_post_meta( $post_ID, $this->metaboxTextColor, $_POST[ $this->metaboxTextColor ] );
-                update_post_meta( $post_ID, $this->metaboxButtonColor, $_POST[ $this->metaboxButtonColor ] );
-                update_post_meta( $post_ID, $this->metaboxDesktopBackgroundImageFieldName, $_POST[ $this->metaboxDesktopBackgroundImageFieldName ] );
-                update_post_meta( $post_ID, $this->metaboxMobileBackgroundImageFieldName, $_POST[ $this->metaboxMobileBackgroundImageFieldName ] );
-                update_post_meta( $post_ID, $this->metaboxTemplate, $_POST[ $this->metaboxTemplate ] );
-                update_post_meta( $post_ID, $this->metaboxButtonClass, $_POST[ $this->metaboxButtonClass ] );                
-                update_post_meta( $post_ID, $this->metaboxEnableSVG, $_POST[ $this->metaboxEnableSVG ] );
-                update_post_meta( $post_ID, $this->metaboxSVGPosition, $_POST[ $this->metaboxSVGPosition ] );      
+                update_post_meta( $post_ID, $this->metaboxMainTextFieldName, isset($_POST[ $this->metaboxMainTextFieldName ]) ? $_POST[ $this->metaboxMainTextFieldName ] : false );
+                update_post_meta( $post_ID, $this->metaboxSecondaryTextFieldName, isset($_POST[ $this->metaboxSecondaryTextFieldName ]) ? $_POST[ $this->metaboxSecondaryTextFieldName ] : false );
+                update_post_meta( $post_ID, $this->metaboxButtonTextFieldName, isset($_POST[ $this->metaboxButtonTextFieldName ]) ? $_POST[ $this->metaboxButtonTextFieldName ] : false );
+                update_post_meta( $post_ID, $this->metaboxSliderLinkFieldName, isset($_POST[ $this->metaboxSliderLinkFieldName ]) ? $_POST[ $this->metaboxSliderLinkFieldName ] : false );
+                update_post_meta( $post_ID, $this->metaboxNewTabFieldName, isset($_POST[ $this->metaboxNewTabFieldName ]) ? $_POST[ $this->metaboxNewTabFieldName ] : false );
+                update_post_meta( $post_ID, $this->metaboxButtonTextColor, isset($_POST[ $this->metaboxButtonTextColor ]) ? $_POST[ $this->metaboxButtonTextColor ] : false );
+                update_post_meta( $post_ID, $this->metaboxTextColor, isset($_POST[ $this->metaboxTextColor ]) ? $_POST[ $this->metaboxTextColor ] : false );
+                update_post_meta( $post_ID, $this->metaboxButtonColor, isset($_POST[ $this->metaboxButtonColor ]) ? $_POST[ $this->metaboxButtonColor ] : false );
+                update_post_meta( $post_ID, $this->metaboxDesktopBackgroundImageFieldName, isset($_POST[ $this->metaboxDesktopBackgroundImageFieldName ]) ? $_POST[ $this->metaboxDesktopBackgroundImageFieldName ] : false );
+                update_post_meta( $post_ID, $this->metaboxMobileBackgroundImageFieldName, isset($_POST[ $this->metaboxMobileBackgroundImageFieldName ]) ? $_POST[ $this->metaboxMobileBackgroundImageFieldName ] : false );
+                update_post_meta( $post_ID, $this->metaboxTemplate, isset($_POST[ $this->metaboxTemplate ]) ? $_POST[ $this->metaboxTemplate ] : false );
+                update_post_meta( $post_ID, $this->metaboxButtonClass, isset($_POST[ $this->metaboxButtonClass ]) ? $_POST[ $this->metaboxButtonClass ] : false );   
+                update_post_meta( $post_ID, $this->metaboxEnableSVG, isset($_POST[ $this->metaboxEnableSVG ]) ? $_POST[ $this->metaboxEnableSVG ] : false );
+                update_post_meta( $post_ID, $this->metaboxSVGPosition, isset($_POST[ $this->metaboxSVGPosition ]) ? $_POST[ $this->metaboxSVGPosition ] : false );
 
             }
         }
