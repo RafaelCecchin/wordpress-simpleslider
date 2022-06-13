@@ -7,7 +7,7 @@
         private $metaboxMainTextFieldName = "simpleslider_main_text_field";
         private $metaboxSecondaryTextFieldName = "simpleslider_secondary_text_field";
         private $metaboxButtonTextFieldName = "simpleslider_button_text_field";
-        private $metaboxButtonLinkFieldName = "simpleslider_button_link_field";
+        private $metaboxSliderLinkFieldName = "simpleslider_slider_link_field";
         private $metaboxButtonTextColor = "simpleslider_button_text_color_field";
         private $metaboxDesktopBackgroundImageFieldName = "simpleslider_desktop_background_image_field";
         private $metaboxMobileBackgroundImageFieldName = "simpleslider_mobile_background_image_field";
@@ -52,7 +52,7 @@
                 'main_text'                 => get_post_meta( $post_id, $this->metaboxMainTextFieldName, true ),
                 'secondary_text'            => get_post_meta( $post_id, $this->metaboxSecondaryTextFieldName, true ),
                 'button_text'               => get_post_meta( $post_id, $this->metaboxButtonTextFieldName, true ),
-                'button_link'               => get_post_meta( $post_id, $this->metaboxButtonLinkFieldName, true ),
+                'slider_link'               => get_post_meta( $post_id, $this->metaboxSliderLinkFieldName, true ),
                 'text_color'                => get_post_meta( $post_id, $this->metaboxTextColor, true ),
                 'button_class'              => get_post_meta( $post_id, $this->metaboxButtonClass, true ),
                 'text_align'                => get_post_meta( $post_id, $this->metaboxTemplate, true ),
@@ -481,7 +481,7 @@
                 update_post_meta( $post_ID, $this->metaboxMainTextFieldName, $_POST[ $this->metaboxMainTextFieldName ] );
                 update_post_meta( $post_ID, $this->metaboxSecondaryTextFieldName, $_POST[ $this->metaboxSecondaryTextFieldName ] );
                 update_post_meta( $post_ID, $this->metaboxButtonTextFieldName, $_POST[ $this->metaboxButtonTextFieldName ] );
-                update_post_meta( $post_ID, $this->metaboxButtonLinkFieldName, $_POST[ $this->metaboxButtonLinkFieldName ] );
+                update_post_meta( $post_ID, $this->metaboxSliderLinkFieldName, $_POST[ $this->metaboxSliderLinkFieldName ] );
                 update_post_meta( $post_ID, $this->metaboxButtonTextColor, $_POST[ $this->metaboxButtonTextColor ] );
                 update_post_meta( $post_ID, $this->metaboxTextColor, $_POST[ $this->metaboxTextColor ] );
                 update_post_meta( $post_ID, $this->metaboxButtonColor, $_POST[ $this->metaboxButtonColor ] );
@@ -636,9 +636,9 @@
 
             $this->showPostField( 
                 $post,
-                $this->metaboxButtonLinkFieldName, 
-                'Link do botão', 
-                'Link da página para qual o botão deverá redirecionar.', 
+                $this->metaboxSliderLinkFieldName, 
+                'Link do slider', 
+                'Link da página para qual o slider deverá redirecionar.', 
                 'text',
                 $free,
                 $position,

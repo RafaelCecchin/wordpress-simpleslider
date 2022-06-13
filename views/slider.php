@@ -22,6 +22,11 @@
 
         <?php foreach ($slides as $slide): ?>
             <div class="slide-<?= $slide['id']; ?> slide <?php echo $slide['text_align']; ?>">            
+                
+                <?php if (!$slide['button_text'] && $slide['button_link']): ?>
+                    <a href="#" class="slide-link"></a>
+                <?php endif; ?>
+
                 <?php echo $slide['image_html']; ?>                                    
                 <div class="container">
                     <?php if ($slide['main_text']): ?>
