@@ -24,7 +24,7 @@
             <div class="slide-<?= $slide['id']; ?> slide <?php echo $slide['text_align']; ?>">            
                 
                 <?php if (!$slide['button_text'] && $slide['slider_link']): ?>
-                    <a href="#" class="slide-link" <?php echo $slide['new_tab'] ? 'target="_blank"' : '' ?>></a>
+                    <a href="<?php echo $slide['slider_link']; ?>" class="slide-link" <?php echo $slide['new_tab'] ? 'target="_blank"' : '' ?>></a>
                 <?php endif; ?>
 
                 <?php echo $slide['image_html']; ?>                                    
