@@ -61,10 +61,8 @@ function openMediaPanel() {
 }
 
 function removeMediaValue() {
-    let optionName = this.getAttribute( 'data-target' );
-    let imagePreview = this.parentElement.querySelector(`img`);
-
-    let inputImage   = document.querySelector(` input[name="${optionName}"] `);
+    let inputImage   = this.parentElement.querySelector(`input`);
+    let imagePreview = this.parentElement.querySelector(`img`);    
     inputImage.value = "";
     imagePreview.src = "";
     updateImageButtons();
