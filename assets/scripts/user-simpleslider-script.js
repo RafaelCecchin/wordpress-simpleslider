@@ -8,7 +8,7 @@
 
         const settings = {
             infinite: true,
-            autoplay: false,
+            autoplay: true,
             autoplaySpeed: 4000,
             slidesToShow: 1,
             slidesToScroll: 1,
