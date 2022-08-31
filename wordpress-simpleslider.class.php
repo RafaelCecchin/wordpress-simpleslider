@@ -98,7 +98,7 @@
                         srcset="' . wp_get_attachment_url( $mobile_id ) . '"
                         width="' . $mobile_meta["width"] . '"
                         height="' . $mobile_meta["height"] . '"
-                        media="(max-width: 767px)"
+                        media="(max-width: 575px)"
                         alt=""
                     >
                     <img 
