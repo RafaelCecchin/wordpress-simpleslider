@@ -829,12 +829,6 @@
                             padding-top: '.$options['padding_desktop'].'vw;
                         }
 
-                        @media screen and (max-width: 992px) {
-                            .main-simpleslider-container .slide {
-                                padding-top: '.$options['padding_tablet'].'vw;
-                            }
-                        }
-
                         @media screen and (max-width: 575px) {
                             .main-simpleslider-container .slide {
                                 padding-top: '.$options['padding_mobile'].'vw;
