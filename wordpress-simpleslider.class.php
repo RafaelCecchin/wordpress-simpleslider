@@ -98,7 +98,7 @@
                         srcset="' . wp_get_attachment_url( $mobile_id ) . '"
                         width="' . $mobile_meta["width"] . '"
                         height="' . $mobile_meta["height"] . '"
-                        media="(max-width: 767px)"
+                        media="(max-width: 575px)"
                         alt=""
                     >
                     <img 
@@ -827,12 +827,6 @@
                     <style>
                         .main-simpleslider-container .slide {
                             padding-top: '.$options['padding_desktop'].'vw;
-                        }
-
-                        @media screen and (max-width: 992px) {
-                            .main-simpleslider-container .slide {
-                                padding-top: '.$options['padding_tablet'].'vw;
-                            }
                         }
 
                         @media screen and (max-width: 575px) {
