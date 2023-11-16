@@ -1,50 +1,52 @@
-@import "./settings";
+@import './settings';
 
 .main-simpleslider-container {
 	position: relative;
-	
-	.prevArrow, .nextArrow {
+
+	.prevArrow,
+	.nextArrow {
 		position: absolute;
 		z-index: 5;
 		cursor: pointer;
 		display: flex;
-		
+
 		top: 50%;
 		transform: translateY(-50%);
-		
+
 		background: transparent;
 		border: none;
 		padding: 0.5rem;
 		opacity: 0;
-		
+
 		transition: 250ms ease-out;
 		transition-property: box-shadow, opacity;
-		
+
 		svg {
 			fill: $white;
 		}
-	
+
 		&.prevArrow {
 			left: 1.5rem;
 			filter: drop-shadow(-2px 2px 2px rgba(0, 0, 0, 0.1));
 		}
-		
+
 		&.nextArrow {
 			right: 1.5rem;
 			filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.1));
 		}
-		
+
 		&:hover {
 			opacity: 1;
 		}
 	}
-	
+
 	&:hover {
-		.prevArrow, .nextArrow {
+		.prevArrow,
+		.nextArrow {
 			opacity: 0.75;
 		}
 	}
-	
+
 	.main-slider {
 		.slide {
 			position: relative;
@@ -55,16 +57,16 @@
 			justify-content: center;
 			width: 100vw;
 			height: 0;
-			
+
 			.slide-link {
 				position: absolute;
 				left: 0;
 				top: 0;
 				width: 100%;
 				height: 100%;
-				z-index: 2;				
+				z-index: 2;
 			}
-			
+
 			&:before {
 				position: absolute;
 				content: '';
@@ -75,148 +77,155 @@
 				z-index: 2;
 				transition: opacity 1s ease-out;
 				opacity: 0;
-				
+
 				@media screen and (max-width: $sm) {
 					height: 100%;
 				}
 			}
-			
+
 			img {
 				position: absolute;
 				z-index: 0;
-				
+
 				top: 50%;
 				left: 50%;
 				transform: translate(-50%, -50%);
-				
+
 				width: 100%;
 				height: 100%;
 				object-fit: cover;
 			}
 
 			picture {
-				position: absolute;
-			    height: 100%;
-			    width: 100%;
-			    top: 0;
-			    left: 0;
+				position: relative;
+				height: 100%;
+				width: 100%;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
 				z-index: 1;
 			}
 
 			.container {
-		    position: absolute;
-		    z-index: 3;
-		    pointer-events: none;
-		    display: flex;
-		    flex-flow: column;
-		    justify-content: center;
-		    gap: 2.5rem;
-		    
-		    top: 0;
-		    height: 100%;
-		    padding-top: 5%;
-		    padding-bottom: 5%;
-				
+				position: absolute;
+				z-index: 3;
+				pointer-events: none;
+				display: flex;
+				flex-flow: column;
+				justify-content: center;
+				gap: 2.5rem;
+
+				top: 0;
+				height: 100%;
+				padding-top: 5%;
+				padding-bottom: 5%;
+
 				@media screen and (max-width: $xxl) {
-		    	gap: 2rem;
-	    	}
-				
-	    	@media screen and (max-width: $sm) {
-					justify-content: end;
-			    padding: 2rem 2rem 4rem;
+					gap: 2rem;
 				}
-		    
-		    h2 {
-		    	width: max-content;
-		    	max-width: 45%;
-		    	font-size: 3rem;
-		    	font-weight: 900;
-		    	line-height: 1.25;
-		    	
-		    	transform: translateX(-2rem);
-		    	opacity: 0;
-		    	transition: 0.75s ease-out 0.6s;
-		    	transition-property: transform, opacity;
-		    	
-		    	@media screen and (max-width: $xxl) {
-			    	max-width: 40%;
-			    	font-size: 2.75rem;
-		    	}
-		    	
-		    	@media screen and (max-width: $lg) {
+
+				@media screen and (max-width: $sm) {
+					justify-content: end;
+					padding: 2rem 2rem 4rem;
+				}
+
+				h2 {
+					width: max-content;
+					max-width: 45%;
+					font-size: 3rem;
+					font-weight: 900;
+					line-height: 1.25;
+
+					transform: translateX(-2rem);
+					opacity: 0;
+					transition: 0.75s ease-out 0.6s;
+					transition-property: transform, opacity;
+
+					@media screen and (max-width: $xxl) {
+						max-width: 40%;
+						font-size: 2.75rem;
+					}
+
+					@media screen and (max-width: $lg) {
 						font-size: 2.5rem;
 						max-width: 75% !important;
-		    		line-height: 1.25;
+						line-height: 1.25;
 					}
-					
-		    	@media screen and (max-width: $sm) {
-		    		transform: translateY(2rem);
+
+					@media screen and (max-width: $sm) {
+						transform: translateY(2rem);
 						font-size: 1.75rem;
 						max-width: 100% !important;
-		    		font-weight: 800;
+						font-weight: 800;
 					}
-		    }
-		    
-		    p {
-		    	width: max-content;
-		    	max-width: 50%;
-				font-size: 1.5rem;
-		    	line-height: 1.25;
-		    	
-		    	transform: translateX(-2rem);
-		    	opacity: 0;
-		    	transition: 0.75s ease-out 0.75s;
-		    	transition-property: transform, opacity;
-		    	
-		    	@media screen and (max-width: $xxl) {
+				}
+
+				p {
+					width: max-content;
+					max-width: 50%;
+					font-size: 1.5rem;
+					line-height: 1.25;
+
+					transform: translateX(-2rem);
+					opacity: 0;
+					transition: 0.75s ease-out 0.75s;
+					transition-property: transform, opacity;
+
+					@media screen and (max-width: $xxl) {
 						font-size: 1.25rem;
-		    	}
-		    	
-		    	@media screen and (max-width: $lg) {
+					}
+
+					@media screen and (max-width: $lg) {
 						max-width: 100% !important;
 					}
-					
-		    	@media screen and (max-width: $sm) {
-		    		transform: translateY(2rem);
+
+					@media screen and (max-width: $sm) {
+						transform: translateY(2rem);
 						font-size: 1rem;
 					}
-		    	
-		    	strong {
-		    		font-weight: 800;
-		    	}
-		    }
 
-            .simpleslider-button {
-                transform: translateX(-2rem);
-                opacity: 0;
-                transition: transform 0.75s ease-out .9s, opacity 0.75s ease-out .9s, background-color ease-out .15s, box-shadow ease-out .15s;
-                width: fit-content;
-                padding: 1rem 1.5rem;
-				display: flex;
-				align-items: center;
-				gap: 0.625rem;
-				pointer-events: all;
-				&.svg-right {
-					flex-direction: row-reverse;
+					strong {
+						font-weight: 800;
+					}
 				}
-                
-                @media screen and (max-width: $sm) {
-                    transform: translateY(2rem);
-                }
 
-                &:hover, &:active, &:focus {
-                    //filter: brightness(1.1);
-                }
+				.simpleslider-button {
+					transform: translateX(-2rem);
+					opacity: 0;
+					transition:
+						transform 0.75s ease-out 0.9s,
+						opacity 0.75s ease-out 0.9s,
+						background-color ease-out 0.15s,
+						box-shadow ease-out 0.15s;
+					width: fit-content;
+					padding: 1rem 1.5rem;
+					display: flex;
+					align-items: center;
+					gap: 0.625rem;
+					pointer-events: all;
+					&.svg-right {
+						flex-direction: row-reverse;
+					}
 
-				svg {
-					width: 1.25rem;
-					height: auto;
-					transition: 150ms cubic-bezier(.45,-0.25,.5,1.1);
-					transition-property: fill;
+					@media screen and (max-width: $sm) {
+						transform: translateY(2rem);
+					}
+
+					&:hover,
+					&:active,
+					&:focus {
+						//filter: brightness(1.1);
+					}
+
+					svg {
+						width: 1.25rem;
+						height: auto;
+						transition: 150ms cubic-bezier(0.45, -0.25, 0.5, 1.1);
+						transition-property: fill;
+					}
 				}
-            }
-		    
-		    /*.simpleslider-button {
+
+				/*.simpleslider-button {
 		    	transform: translateX(-2rem);
 		    	opacity: 0;
 		    	transition: 0.75s ease-out 0.9s;
@@ -226,84 +235,85 @@
 		    		transform: translateY(2rem);
 		    	}
 		    }*/
-
 			}
-			
+
 			&.center {
 				&:before {
 					background: linear-gradient(to top, transparentize(black, 0.15), transparent);
 				}
-				
+
 				.container {
 					align-items: center;
 					justify-content: end;
-					
+
 					h2 {
 						text-align: center;
 						max-width: 65%;
 						transform: translateY(2rem);
 					}
-					
+
 					p {
 						text-align: center;
 						max-width: 60%;
 						transform: translateY(2rem);
 					}
-					
+
 					.simpleslider-button {
 						transform: translateY(2rem);
 					}
 				}
 			}
-			
+
 			&.right {
 				&:before {
 					background: linear-gradient(to left, transparentize(black, 0.15), transparent);
 				}
-				
+
 				.container {
 					align-items: end;
-					
+
 					@media screen and (max-width: $sm) {
 						align-items: center;
 					}
-					
+
 					h2 {
 						text-align: right;
 						transform: translateX(2rem);
-						
+
 						@media screen and (max-width: $sm) {
 							text-align: center;
 						}
 					}
-					
+
 					p {
 						text-align: right;
 						transform: translateX(2rem);
-						
+
 						@media screen and (max-width: $sm) {
 							text-align: center;
 						}
 					}
-					
+
 					.simpleslider-button {
 						transform: translateX(2rem);
 					}
 				}
 			}
-			
+
 			&.slick-active {
 				&:before {
 					opacity: 1 !important;
 				}
-				
-				h2, p, .simpleslider-button {
+
+				h2,
+				p,
+				.simpleslider-button {
 					transform: translate(0) !important;
 					opacity: 1 !important;
 				}
 			}
 		}
-		
+
 		.slick-dots {
 			position: absolute;
 			bottom: 1rem;
@@ -313,7 +323,7 @@
 			gap: 0.5rem;
 			left: 50%;
 			transform: translateX(-50%);
-			
+
 			li {
 				button {
 					border: none;
@@ -325,12 +335,12 @@
 					cursor: pointer;
 					transition: 150ms ease-out;
 					transition-property: width, background-color;
-					
+
 					&:focus {
 						box-shadow: none;
 					}
 				}
-				
+
 				&.slick-active {
 					button {
 						width: 1.5rem;
